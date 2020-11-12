@@ -3,7 +3,7 @@
  */
 package application;
 
-import implementation.ShipList;
+import implementation.BoardObjectList;
 import implementation.ShipType;
 
 /**
@@ -12,34 +12,34 @@ import implementation.ShipType;
  * @apiNote (TODO) Initialization from file. (TODO) Initialization from GUI
  *          elements.
  * 
- * @author macakpav
+ * @author Pavel Mačák
  *
  */
 public class BoardSetup {
-    private final ShipList shipList;
+    private final BoardObjectList boardObjectList;
     private int sizeX, sizeY;
 
     public BoardSetup() {
 	this.sizeX = 8;
 	this.sizeY = 8;
 
-	this.shipList = new ShipList();
+	this.boardObjectList = new BoardObjectList();
 	hardCodeInit();
     }
 
     private void hardCodeInit() {
-	this.shipList.put(ShipType.CARRIER, new int[] { 0, 0, 0, 1, 0, 2, 0, 3, 0, 4 });
-	this.shipList.put(ShipType.BATTLESHIP, new int[] { 1, 0, 1, 1, 1, 2, 1, 3 });
-	this.shipList.put(ShipType.SUBMARINE, new int[] { 2, 0, 2, 1, 2, 2 });
-	this.shipList.put(ShipType.DESTROYER, new int[] { 3, 0, 3, 1 });
-	this.shipList.put(ShipType.CARRIER, new int[] { 4, 0, 4, 1, 4, 2, 4, 3, 4, 4 });
+	this.boardObjectList.addShip(ShipType.CARRIER, 0, 0, 0, 4);
+	this.boardObjectList.addShip(ShipType.BATTLESHIP, 1, 0, 1, 3);
+	this.boardObjectList.addShip(ShipType.SUBMARINE, 2, 0, 2, 2);
+	this.boardObjectList.addShip(ShipType.DESTROYER, 3, 0, 3, 1);
+	this.boardObjectList.addShip(ShipType.CARRIER, 4, 0, 4, 4);
     }
 
     /**
      * @return the shipList
      */
-    public ShipList getShipList() {
-	return this.shipList;
+    public BoardObjectList getShipList() {
+	return this.boardObjectList;
     }
 
     /**

@@ -4,63 +4,55 @@
 package implementation;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Iterator;
 
 /**
- * @author macakpav
+ * @author Pavel Mačák
  *
  */
-public class Placement implements Iterable<Coordinates> {
-    private ArrayList<Coordinates> coordinateList;
-    
+public abstract class Placement implements Iterable<Coords> {
+    /**
+     * Array list containing placement coordinates.
+     */
+    protected ArrayList<Coords> coordinateList;
+
+    /**
+     * Returns the iterator of coordinateList.
+     */
     @Override
-    public Iterator<Coordinates> iterator() {
+    public Iterator<Coords> iterator() {
 	return this.coordinateList.iterator();
     }
 
-    public Placement(int[] coordinates) throws InputMismatchException {
-	assert (coordinates != null);
-	if (coordinates.length % 2 != 0) {
-	    throw new InputMismatchException("Length of coordinates list has to be dividable by two!");
-	}
-	this.coordinateList = new ArrayList<Coordinates>(coordinates.length / 2);
-	this.coordinateList.add(new Coordinates(coordinates[0], coordinates[1]));
-	for (int i = 2; i < coordinates.length; i += 2) {
-	    Coordinates newCoord = new Coordinates(coordinates[i], coordinates[i + 1]);
-	    if (this.lastCoord().distance(newCoord) != 1)
-		throw new InputMismatchException("Coordinates are not consecutive!");
-//	    System.out.println(this.coordinateList);
-	    if (!this.coordinateList.get(0).inLine(newCoord))
-		throw new InputMismatchException("Coordinates are not in line!");
-	    if (this.coordinateList.contains(newCoord))
-		throw new InputMismatchException("Two coordiantes are identical!");
-	    this.coordinateList.add(newCoord);
-	}
-    }
+    protected abstract void addCoord(Coords coord);
 
-    private Coordinates lastCoord() {
-	return this.coordinateList.get(this.coordinateList.size() - 1);
-    }
-
+    /**
+     * @return Count of coordinates in this placement object.
+     */
     public int len() {
 	return this.coordinateList.size();
     }
 
     /**
+     * Check if placements overlap.
+     * 
+     * @param linearPlacement LinearPlacement object to check collision with.
      * @return True if at least one coordinate is common for both placements.
      */
     public boolean collidesWith(Placement placement) {
-	for (Coordinates coordinates : this.coordinateList) {
-	    if (placement.coordinateList.contains(coordinates))
+	assert (placement != null);
+	for (Coords coords : this.coordinateList) {
+	    if (placement.coordinateList.contains(coords))
 		return true;
 	}
 	return false;
     }
 
+    /**
+     * @return "Placement [" + super.coordinateList + "]"
+     */
     @Override
     public String toString() {
 	return "Placement [" + this.coordinateList + "]";
     }
-
 }

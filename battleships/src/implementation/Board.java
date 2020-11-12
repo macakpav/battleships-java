@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import application.BoardSetup;
 
 /**
- * @author macakpav
+ * @author Pavel Mačák
  *
  */
 public class Board {
@@ -24,29 +24,31 @@ public class Board {
 	this.sizeY = setup.getSizeY();
 	this.noTiles = this.sizeX * this.sizeY;
 
-	this.tiles = new ArrayList<Tile>(this.noTiles);// initialize with capacity noTiles
+	this.tiles = new ArrayList<Tile>(this.noTiles);// initialize with capacity
+						       // noTiles
 	this.initTiles(setup.getShipList());
     }
 
-    private void initTiles(ShipList shipList) {
-	System.out.println(shipList);
+    private void initTiles(BoardObjectList boardObjectList) {
+	System.out.println(boardObjectList);
 	for (int i = 0; i < this.noTiles; i++) {
 	    this.tiles.add(new WaterTile(i));
 	}
 
-	for (Ship ship : shipList) {
-	    placeShip(ship);
+	for (BoardObject obj : boardObjectList) {
+	    placeOnBoard(obj);
 	}
     }
 
-    private void placeShip(Ship ship) {
+    private void placeOnBoard(Placeable placeable) {
 	int tileID;
-	for (Coordinates coord : ship.getPlacement()) {
+	for (Coords coord : placeable.getPlacement()) {
 	    tileID = tile(coord).id();
-	    if (tile(tileID) instanceof ShipTile)
+	    if (tile(tileID) instanceof ObjectTile)
 		throw new InputMismatchException(
-			"Cannot place ship on board, there is already a ship on tile " + tileID + "!");
-	    this.tiles.set(tileID, new ShipTile(tileID, ship));
+			"Cannot place object on board, there is already another thing on tile "
+				+ tileID + "!");
+	    this.tiles.set(tileID, new ObjectTile(tileID, placeable));
 	}
     }
 
@@ -61,7 +63,7 @@ public class Board {
 	return tile(x * this.sizeX + y);
     }
 
-    public Tile tile(Coordinates tileCoordinates) {
+    public Tile tile(Coords tileCoordinates) {
 	return tile(tileCoordinates.getX(), tileCoordinates.getY());
     }
 

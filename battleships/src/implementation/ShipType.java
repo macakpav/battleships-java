@@ -4,7 +4,9 @@
 package implementation;
 
 /**
- * @author macakpav
+ * Types of ships that can be placed on the board.
+ * 
+ * @author Pavel Mačák
  *
  */
 public enum ShipType {
@@ -13,13 +15,38 @@ public enum ShipType {
     SUBMARINE('S', "Submarine", 3, 3, TileColor.PURPLE),
     DESTROYER('D', "Destroyer", 2, 1, TileColor.GREEN);
 
+    /**
+     * One character abbreviation of ships name.
+     */
     private char abbreviation;
-    private String name; // string representing the ship (f.e. in printed output, in placement file etc.)
-    private int length; // how many tiles the ship takes
-    private int pointsPerHit; // points for a successful hit of the ship
+    /**
+     * String representing the ship (f.e. in printed output, inplacement file etc.).
+     */
+    private String name;
+    /**
+     * How many tiles the ship takes.
+     */
+    private int length;
+    /**
+     * Points for a successful hit of the ship.
+     */
+    private int pointsPerHit;
+    /**
+     * The color of tile assigned to the ship.
+     */
     private TileColor color;
 
-    private ShipType(char abbreviation, String name, int length, int pointsPerHit, TileColor color) {
+    /**
+     * Enum constructor.
+     * 
+     * @param abbreviation
+     * @param name
+     * @param length
+     * @param pointsPerHit
+     * @param color
+     */
+    private ShipType(char abbreviation, String name, int length, int pointsPerHit,
+	    TileColor color) {
 	this.abbreviation = abbreviation;
 	this.name = name;
 	this.length = length;
@@ -28,21 +55,21 @@ public enum ShipType {
     }
 
     /**
-     * @return Name of ship.
+     * @return Name of ship type.
      */
     public String NAME() {
 	return this.name;
     }
 
     /**
-     * @return Number of tiles the ship occupies.
+     * @return Number of tiles this ship type occupies.
      */
     public int LEN() {
 	return this.length;
     }
 
     /**
-     * @return Points for single hit of the ship.
+     * @return Points for single hit of this ship type.
      */
     public int POINTS() {
 	return this.pointsPerHit;
@@ -56,7 +83,7 @@ public enum ShipType {
     }
 
     /**
-     * @return Abbreviation of ship name.
+     * @return Abbreviation of ship name. One character.
      */
     public char ABB() {
 	return this.abbreviation;

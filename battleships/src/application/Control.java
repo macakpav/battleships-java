@@ -6,7 +6,7 @@ package application;
 import implementation.Board;
 
 /**
- * @author macakpav
+ * @author Pavel Mačák
  *
  */
 public class Control {
