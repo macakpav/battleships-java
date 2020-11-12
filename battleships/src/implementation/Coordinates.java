@@ -75,4 +75,13 @@ public class Coordinates extends Object {
 	return dist;
     }
 
+    public boolean inLine(Coordinates that) {
+	return (this.x == that.x && this.y != that.y || this.x != that.x && this.y == that.y);
+    }
+
+    @Override
+    public String toString() {
+	return "[" + this.x + ", " + this.y + "]";
+    }
+
 }

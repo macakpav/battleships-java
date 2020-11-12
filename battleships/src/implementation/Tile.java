@@ -8,9 +8,9 @@ package implementation;
  *
  */
 public abstract class Tile {
-    protected int id; // ID of tile, also position in tiles array in Board
+    private int id; // ID of tile, also position in tiles array in Board
     private TileColor color; // color of the tile
-    private boolean flipped; // if the tile has been revealed
+    protected boolean flipped; // if the tile has been revealed
 
     public Tile(int id, TileColor color) {
 	this.id = id;
@@ -46,6 +46,8 @@ public abstract class Tile {
     }
 
     @Override
-    public abstract String toString();
+    public String toString() {
+	return (this.flipped ? "v" : "h") + this.id;
+    }
 
 }

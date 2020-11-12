@@ -4,6 +4,7 @@
 package implementation;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 import application.BoardSetup;
 
@@ -28,19 +29,24 @@ public class Board {
     }
 
     private void initTiles(ShipList shipList) {
+	System.out.println(shipList);
 	for (int i = 0; i < this.noTiles; i++) {
 	    this.tiles.add(new WaterTile(i));
 	}
-	for (Ship ship : Ship.values()) {
-	    placeShip(ship, shipList.getShipPlacement(ship));
+
+	for (Ship ship : shipList) {
+	    placeShip(ship);
 	}
     }
 
-    private void placeShip(Ship ship, Placement placement) {
-	int id;
-	for (Coordinates coord : placement) {
-	    id = tile(coord).id();
-	    this.tiles.set(id, new ShipTile(id, ship));
+    private void placeShip(Ship ship) {
+	int tileID;
+	for (Coordinates coord : ship.getPlacement()) {
+	    tileID = tile(coord).id();
+	    if (tile(tileID) instanceof ShipTile)
+		throw new InputMismatchException(
+			"Cannot place ship on board, there is already a ship on tile " + tileID + "!");
+	    this.tiles.set(tileID, new ShipTile(tileID, ship));
 	}
     }
 

@@ -31,6 +31,8 @@ public class Placement implements Iterable<Coordinates> {
 	    if (this.lastCoord().distance(newCoord) != 1)
 		throw new InputMismatchException("Coordinates are not consecutive!");
 //	    System.out.println(this.coordinateList);
+	    if (!this.coordinateList.get(0).inLine(newCoord))
+		throw new InputMismatchException("Coordinates are not in line!");
 	    if (this.coordinateList.contains(newCoord))
 		throw new InputMismatchException("Two coordiantes are identical!");
 	    this.coordinateList.add(newCoord);
@@ -58,7 +60,7 @@ public class Placement implements Iterable<Coordinates> {
 
     @Override
     public String toString() {
-	return "Placement [coordinateList=" + this.coordinateList + "]";
+	return "Placement [" + this.coordinateList + "]";
     }
 
 }

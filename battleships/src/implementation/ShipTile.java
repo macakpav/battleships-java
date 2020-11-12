@@ -8,11 +8,11 @@ package implementation;
  *
  */
 public class ShipTile extends Tile {
-    Ship shipType;
+    Ship ship;
 
     public ShipTile(int id, Ship ship) {
-	super(id, ship.COLOR());
-	this.shipType = ship;
+	super(id, ship.color());
+	this.ship = ship;
     }
 
     /**
@@ -26,6 +26,6 @@ public class ShipTile extends Tile {
 
     @Override
     public String toString() {
-	return super.id + "" + this.shipType.ABB();
+	return super.toString() + this.ship.nameAbbreviation();
     }
 }

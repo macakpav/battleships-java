@@ -3,8 +3,8 @@
  */
 package application;
 
-import implementation.Ship;
 import implementation.ShipList;
+import implementation.ShipType;
 
 /**
  * Class holding necessary variables to initialize an instance of Board.
@@ -28,10 +28,11 @@ public class BoardSetup {
     }
 
     private void hardCodeInit() {
-	this.shipList.put(Ship.CARRIER, new int[] { 0, 0, 0, 1, 0, 2, 0, 3, 0, 4 });
-	this.shipList.put(Ship.BATTLESHIP, new int[] { 1, 0, 1, 1, 1, 2, 1, 3 });
-	this.shipList.put(Ship.SUBMARINE, new int[] { 2, 0, 2, 1, 2, 2 });
-	this.shipList.put(Ship.DESTROYER, new int[] { 3, 0, 3, 1 });
+	this.shipList.put(ShipType.CARRIER, new int[] { 0, 0, 0, 1, 0, 2, 0, 3, 0, 4 });
+	this.shipList.put(ShipType.BATTLESHIP, new int[] { 1, 0, 1, 1, 1, 2, 1, 3 });
+	this.shipList.put(ShipType.SUBMARINE, new int[] { 2, 0, 2, 1, 2, 2 });
+	this.shipList.put(ShipType.DESTROYER, new int[] { 3, 0, 3, 1 });
+	this.shipList.put(ShipType.CARRIER, new int[] { 4, 0, 4, 1, 4, 2, 4, 3, 4, 4 });
     }
 
     /**

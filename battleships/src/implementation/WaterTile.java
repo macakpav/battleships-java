@@ -14,6 +14,6 @@ public class WaterTile extends Tile {
 
     @Override
     public String toString() {
-	return super.id + "W";
+	return super.toString() + "W";
     }
 }
