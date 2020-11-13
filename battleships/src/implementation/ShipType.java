@@ -4,7 +4,9 @@
 package implementation;
 
 /**
- * Types of ships that can be placed on the board.
+ * Types of ships.
+ * 
+ * @Exposes NAME(), POINTS(), LEN(), COLOR(), ABB()
  * 
  * @author Pavel Mačák
  *
@@ -87,6 +89,18 @@ public enum ShipType {
      */
     public char ABB() {
 	return this.abbreviation;
+    }
+
+    public static boolean isValidShipType(String shipTypeName) {
+	return (getShipType(shipTypeName) != null);
+    }
+
+    public static ShipType getShipType(String shipTypeName) {
+	for (ShipType shipType : ShipType.values())
+	    if (shipType.NAME().toUpperCase()
+		    .equals(shipTypeName.trim().toUpperCase()))
+		return shipType;
+	return null;
     }
 
 }

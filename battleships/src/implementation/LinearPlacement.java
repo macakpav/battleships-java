@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Pavel Mačák
  *
  */
-public class LinearPlacement extends Placement {
+class LinearPlacement extends Placement {
 
     /**
      * Constructs linear placement going from point [beginX,beginY] to [endX,endY].
@@ -25,7 +25,7 @@ public class LinearPlacement extends Placement {
      * @param endY   Y-coordinate of ending point.
      * @throws IllegalArgumentException
      */
-    public LinearPlacement(int beginX, int beginY, int endX, int endY)
+    protected LinearPlacement(int beginX, int beginY, int endX, int endY)
 	    throws IllegalArgumentException {
 	this(new Coords(beginX, beginY), new Coords(endX, endY));
     }
@@ -37,7 +37,8 @@ public class LinearPlacement extends Placement {
      * @param end   Ending Coordinate object.
      * @throws IllegalArgumentException
      */
-    public LinearPlacement(Coords begin, Coords end) throws IllegalArgumentException {
+    protected LinearPlacement(Coords begin, Coords end)
+	    throws IllegalArgumentException {
 	assert (begin != null);
 	assert (end != null);
 	if (begin.equals(end))
@@ -59,7 +60,7 @@ public class LinearPlacement extends Placement {
      * @param coordinates Integer array of coordinate tuples.
      * @throws IllegalArgumentException
      */
-    public LinearPlacement(int[] coordinates) throws IllegalArgumentException {
+    protected LinearPlacement(int[] coordinates) throws IllegalArgumentException {
 	assert (coordinates != null);
 
 	if (coordinates.length % 2 != 0) {
@@ -67,7 +68,7 @@ public class LinearPlacement extends Placement {
 		    "Length of coordinates list has to be dividable by two!");
 	}
 
-	for (int i = 2; i < coordinates.length; i += 2)
+	for (int i = 0; i < coordinates.length; i += 2)
 	    this.addCoord(new Coords(coordinates[i], coordinates[i + 1]));
     }
 
@@ -80,7 +81,7 @@ public class LinearPlacement extends Placement {
      * @param coordinateList
      * @throws IllegalArgumentException
      */
-    public LinearPlacement(ArrayList<Coords> coordinateList)
+    protected LinearPlacement(ArrayList<Coords> coordinateList)
 	    throws IllegalArgumentException {
 	// only perform checks if the list is valid
 	for (int i = 1; i < coordinateList.size(); i++) {
@@ -96,7 +97,7 @@ public class LinearPlacement extends Placement {
      * @param coordinateList
      * @throws IllegalArgumentException
      */
-    public LinearPlacement(Iterable<Coords> coordinates)
+    protected LinearPlacement(Iterable<Coords> coordinates)
 	    throws IllegalArgumentException {
 	this.addCoord(coordinates);
     }
@@ -128,7 +129,7 @@ public class LinearPlacement extends Placement {
      * @param newCoords array of Coordinates objects
      * @throws IllegalArgumentException
      */
-    private void addCoord(Iterable<Coords> newCoords)
+    protected void addCoord(Iterable<Coords> newCoords)
 	    throws IllegalArgumentException {
 	assert (newCoords != null);
 	for (Coords coord : newCoords) {

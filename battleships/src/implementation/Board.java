@@ -13,11 +13,28 @@ import application.BoardSetup;
  *
  */
 public class Board {
-    private final ArrayList<Tile> tiles; // array holding different Tiles
-    private int sizeX; // size of board in horizontal direction
-    private int sizeY; // size of board in vertical direction
-    private int noTiles; // number of tiles (sizeX*sizeY)
+    /**
+     * array holding different Tiles
+     */
+    private final ArrayList<Tile> tiles;
+    /**
+     * size of board in horizontal direction
+     */
+    private final int sizeX;
+    /**
+     * size of board in vertical direction
+     */
+    private final int sizeY;
+    /**
+     * number of tiles (sizeX*sizeY)
+     */
+    private final int noTiles;
 
+    /**
+     * Constructor using the BoardSetup class from application module.
+     * 
+     * @param setup that holds necessary setup for the Board.
+     */
     public Board(BoardSetup setup) {
 	super();
 	this.sizeX = setup.getSizeX();
@@ -29,49 +46,82 @@ public class Board {
 	this.initTiles(setup.getShipList());
     }
 
-    private void initTiles(BoardObjectList boardObjectList) {
-	System.out.println(boardObjectList);
+    /**
+     * Initializes Tiles of the Board. Firstly all to empty (water) tiles and then
+     * starts adding board objects from the list.
+     * 
+     * @param boardObjectList
+     */
+    private void initTiles(ShipList shipList) {
+	System.out.println(shipList);
 	for (int i = 0; i < this.noTiles; i++) {
 	    this.tiles.add(new WaterTile(i));
 	}
 
-	for (BoardObject obj : boardObjectList) {
-	    placeOnBoard(obj);
+	for (Ship ship : shipList) {
+	    placeShip(ship);
 	}
     }
 
-    private void placeOnBoard(Placeable placeable) {
+    /**
+     * Place a ship object on the board.
+     * 
+     * @param ship to be placed on the board
+     */
+    private void placeShip(Ship ship) {
 	int tileID;
-	for (Coords coord : placeable.getPlacement()) {
+	for (Coords coord : ship.getPlacement()) {
 	    tileID = tile(coord).id();
-	    if (tile(tileID) instanceof ObjectTile)
+	    if (tile(tileID) instanceof ShipTile)
 		throw new InputMismatchException(
 			"Cannot place object on board, there is already another thing on tile "
 				+ tileID + "!");
-	    this.tiles.set(tileID, new ObjectTile(tileID, placeable));
+	    this.tiles.set(tileID, new ShipTile(tileID, ship));
 	}
     }
 
+    /**
+     * Get tile by index.
+     * 
+     * @param index integer
+     * @return Tile object
+     */
     public Tile tile(int index) {
 	assert (index < this.noTiles);
 	return this.tiles.get(index);
     }
 
+    /**
+     * Get tile by coordinates.
+     * 
+     * @param x integer
+     * @param y integer
+     * @return Tile object
+     */
     public Tile tile(int x, int y) {
-	assert (x < this.sizeX);
-	assert (y < this.sizeY);
-	return tile(x * this.sizeX + y);
+	assert (x <= this.sizeX);
+	assert (y <= this.sizeY);
+	return tile((x - 1) * this.sizeY + (y - 1));
     }
 
-    public Tile tile(Coords tileCoordinates) {
-	return tile(tileCoordinates.getX(), tileCoordinates.getY());
+    /**
+     * Get tile using Coords object.
+     * 
+     * @param coords
+     * @return Tile object
+     */
+    public Tile tile(Coords coords) {
+	return tile(coords.getX(), coords.getY());
     }
 
+    /**
+     * String representation of tiles order in square/rectangle format.
+     */
     @Override
     public String toString() {
 	String out = "";
-	for (int i = 0; i < this.sizeX; i++) {
-	    for (int j = 0; j < this.sizeY; j++) {
+	for (int i = 1; i <= this.sizeX; i++) {
+	    for (int j = 1; j <= this.sizeY; j++) {
 		out += this.tile(i, j).toString() + "\t";
 	    }
 	    out += "\n";
@@ -82,14 +132,14 @@ public class Board {
     /**
      * @return the sizeX
      */
-    public int getsizeX() {
+    public int getSizeX() {
 	return this.sizeX;
     }
 
     /**
      * @return the sizeY
      */
-    public int getsizeY() {
+    public int getSizeY() {
 	return this.sizeY;
     }
 

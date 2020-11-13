@@ -12,18 +12,18 @@ import java.util.Iterator;
  * @author Pavel Mačák
  *
  */
-public class BoardObjectList implements Iterable<BoardObject> {
+public class ShipList implements Iterable<Ship> {
 
     /**
      * ArrayList of ships.
      */
-    private final ArrayList<BoardObject> boardObjects;
+    private final ArrayList<Ship> ships;
 
     /**
      * Basic constructor. Initializes ArrayList.
      */
-    public BoardObjectList() {
-	this.boardObjects = new ArrayList<BoardObject>();
+    public ShipList() {
+	this.ships = new ArrayList<Ship>();
     }
 
     /**
@@ -35,7 +35,11 @@ public class BoardObjectList implements Iterable<BoardObject> {
      */
     public void addShip(ShipType shipType, int[] intArray)
 	    throws IllegalArgumentException {
-	this.addShip(shipType, new LinearPlacement(intArray));
+	if (intArray.length == 4)
+	    this.addShip(shipType, intArray[0], intArray[1], intArray[2],
+		    intArray[3]);
+	else
+	    this.addShip(shipType, new LinearPlacement(intArray));
     }
 
     /**
@@ -73,35 +77,38 @@ public class BoardObjectList implements Iterable<BoardObject> {
      */
     public void addShip(ShipType shipType, LinearPlacement linearPlacement)
 	    throws IllegalArgumentException {
+//	System.out.println(linearPlacement);
 	if (shipType.LEN() != linearPlacement.len())
 	    throw new IllegalArgumentException(
-		    "Length of ship is different from placement!");
+		    "Length of ship is different from length placement!");
 
-	this.addShip(new Ship(this.boardObjects.size(), shipType, linearPlacement));
+	this.add(new Ship(this.ships.size(), shipType, linearPlacement));
     }
 
     /**
-     * @param ship Ship to put at the end of ship list.
+     * @param object Object to put at the end of object list.
      * @throws IllegalArgumentException
      */
-    public void addShip(Ship ship) throws IllegalArgumentException {
-	if (this.checkConflict(ship.getPlacement()))
-	    throw new IllegalArgumentException("Error trying to place ship "
-		    + ship.getName() + ". Overlaping with other ships.");
+    protected void add(Ship object) throws IllegalArgumentException {
+	if (this.checkOverlaps(object))
+	    throw new IllegalArgumentException(
+		    "Error trying to place object (Overlaping with other objects):\n "
+			    + object.toString());
 
-	this.boardObjects.add(ship);
+	this.ships.add(object);
 
     }
 
     /**
-     * Check if the placement would collide with any ship already in list of ships.
+     * Check if the placement would collide with any object already in list of
+     * objects.
      * 
-     * @param linearPlacement
+     * @param Placement
      * @return True if any placement collides with Placement.
      */
-    private boolean checkConflict(Placement placement) {
-	for (Placeable placeableObject : this.boardObjects) {
-	    if (placeableObject.getPlacement().collidesWith(placement))
+    private boolean checkOverlaps(Placement placement) {
+	for (Ship boardObject : this.ships) {
+	    if (boardObject.getPlacement().overlapsWith(placement))
 		return true;
 	}
 	return false;
@@ -114,26 +121,26 @@ public class BoardObjectList implements Iterable<BoardObject> {
      * @param ship Ship object to check.
      * @return True if any ship collides with this ship.
      */
-//    private boolean checkConflict(Ship ship) {
-//	return this.checkConflict(ship.getPlacement());
-//    }
-
-    /**
-     * Returns the iterator of boardObjects.
-     */
-    @Override
-    public Iterator<BoardObject> iterator() {
-	return this.boardObjects.iterator();
+    private boolean checkOverlaps(Ship boardObject) {
+	return this.checkOverlaps(boardObject.getPlacement());
     }
 
     /**
-     * String representation of each boardObject on new lines.
+     * Returns the iterator of ships.
+     */
+    @Override
+    public Iterator<Ship> iterator() {
+	return this.ships.iterator();
+    }
+
+    /**
+     * String representation of each ship on new lines.
      */
     @Override
     public String toString() {
-	String str = new String("BoardObjectList:\n");
-	for (BoardObject object : this.boardObjects) {
-	    str += object.toString();
+	String str = new String("ShipList:\n");
+	for (Ship ship : this.ships) {
+	    str += ship.toString();
 	    str += "\n";
 	}
 	return str;

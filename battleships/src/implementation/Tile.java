@@ -21,7 +21,7 @@ public abstract class Tile {
     /**
      * Indicates if the tile has been revealed.
      */
-    protected boolean visible;
+    private boolean visible;
 
     /**
      * Basic constructor. Variable visible is initialized as false.
@@ -29,7 +29,7 @@ public abstract class Tile {
      * @param id    ID of tile
      * @param color Color of the tile when revealed
      */
-    public Tile(int id, TileColor color) {
+    protected Tile(int id, TileColor color) {
 	this.id = id;
 	this.color = color;
 	this.visible = false;
@@ -42,11 +42,15 @@ public abstract class Tile {
     /**
      * @throws Exception
      */
-    public void flip() throws Exception {
+    protected void flip() throws Exception {
 	if (this.visible)
 	    throw new Exception("Tile " + this.id + " is already visible!");
 	this.visible = true;
     }
+
+    protected abstract double pointsForReveleaning();
+
+    protected abstract void hit() throws Exception;
 
     /**
      * @return Color that this Tile should be displayed with. Depends whether it was
@@ -63,6 +67,13 @@ public abstract class Tile {
      */
     public int id() {
 	return this.id;
+    }
+
+    /**
+     * @return True if tile is visible
+     */
+    protected boolean isVisible() {
+	return this.visible;
     }
 
     /**

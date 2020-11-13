@@ -4,19 +4,31 @@
 package implementation;
 
 /**
- * Extends Tile abstract class. Represents a water tile.
+ * Extends Tile abstract class. Represents an empty tile on the board.
  * 
  * @author Pavel Mačák
  *
  */
-public class WaterTile extends Tile {
+final class WaterTile extends Tile {
     /**
      * Color is set to WATER.
      * 
      * @param id ID of the tile.
      */
-    public WaterTile(int id) {
+    protected WaterTile(int id) {
 	super(id, TileColor.WATER);
+    }
+
+    /**
+     * No points for hitting an empty tile.
+     */
+    public double pointsForReveleaning() {
+	return 0.0;
+    }
+
+    @Override
+    public void hit() throws Exception {
+	super.flip();
     }
 
     /**

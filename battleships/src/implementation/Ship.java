@@ -9,27 +9,45 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public class Ship extends BoardObject {
+final class Ship {
+
+    private int id;
     /**
      * ShipType Enumerator.
      */
     private ShipType shipType;
+    private Placement placement;
     /**
      * Number of hidden tiles of this ship.
      */
     private int noHiddenTiles;
 
-    public Ship(int id, ShipType shipType, LinearPlacement linearPlacement) {
-	super(id, linearPlacement);
+    protected Ship(int id, ShipType shipType, LinearPlacement linearPlacement) {
+	this.id = id;
 	assert (shipType.LEN() == linearPlacement.len());
+	this.placement = linearPlacement;
 	this.shipType = shipType;
 	this.noHiddenTiles = shipType.LEN();
     }
 
     /**
+     * @return ID of this ship.
+     */
+    protected int id() {
+	return this.id;
+    }
+
+    /**
+     * @return Placement of this object.
+     */
+    public Placement getPlacement() {
+	return this.placement;
+    }
+
+    /**
      * Tell the ship that it received a hit.
      */
-    void hit() {
+    public void hit() {
 	this.noHiddenTiles -= 1;
 	assert (this.noHiddenTiles > -1);
     }
@@ -37,35 +55,34 @@ public class Ship extends BoardObject {
     /**
      * @return True if the ship has sunk (no more hidden tiles).
      */
-    boolean sunk() {
+    public boolean isDestroyed() {
 	return this.noHiddenTiles == 0;
     }
 
     /**
      * @return the name of ship type.
      */
-    String getName() {
+    protected String getName() {
 	return this.shipType.NAME();
     }
 
     /**
      * @return Number of tiles the ship occupies.
      */
-    int getlength() {
+    protected int getlength() {
 	return this.shipType.LEN();
     }
 
     /**
      * @return Points for single hit of the ship.
      */
-    int getPointsPerHit() {
+    public double getPointsPerHit() {
 	return this.shipType.POINTS();
     }
 
     /**
      * @return The color of tile assigned to the ship.
      */
-    @Override
     public TileColor getColor() {
 	return this.shipType.COLOR();
     }
@@ -73,7 +90,6 @@ public class Ship extends BoardObject {
     /**
      * @return Abbreviation of ship name.
      */
-    @Override
     public char charRepresentation() {
 	return this.shipType.ABB();
     }
@@ -83,7 +99,8 @@ public class Ship extends BoardObject {
      */
     @Override
     public String toString() {
-	return "Ship [ shipType=" + this.shipType + ", " + super.toString() + "]";
+	return "Ship [" + "id=" + this.id + ", shipType=" + this.shipType
+		+ ", placement=" + this.placement + "]";
     }
 
 }
