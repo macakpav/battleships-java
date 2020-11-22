@@ -94,7 +94,7 @@ public class Board {
     public Tile tile(int x, int y) {
 	assert (x <= this.getSizeX());
 	assert (y <= this.getSizeY());
-	return tile((x - 1) * this.getSizeY() + (y - 1));
+	return tile((x - 1) + (y - 1));
     }
 
     /**

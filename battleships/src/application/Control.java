@@ -29,7 +29,7 @@ public class Control {
 //	    myGame.consolePrint();
 //	}
 
-	if (myBoardSetup.randomInit(5, 5)) {
+	if (myBoardSetup.randomInit(6, 6)) {
 	    Board myBoard = new Board(myBoardSetup);
 	    Game myGame = new Game(myBoard, new EqualScoringSystem());
 	    myGame.consolePrint();

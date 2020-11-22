@@ -32,7 +32,9 @@ public abstract class Placement implements Iterable<Coords> {
      * 
      * @param coord Coordinate to add
      */
-    protected abstract void addCoord(Coords coord);
+    protected void addCoord(Coords coord) {
+	this.coordinateList.add(coord);
+    }
 
     /**
      * @return Count of coordinates in this placement object.
@@ -47,10 +49,10 @@ public abstract class Placement implements Iterable<Coords> {
      * @param linearPlacement LinearPlacement object to check collision with.
      * @return True if at least one coordinate is common for both placements.
      */
-    protected boolean overlapsWith(Placement placement) {
-	assert (placement != null);
+    protected boolean overlapsWith(Placement that) {
+	assert (that != null);
 	for (Coords coords : this.coordinateList) {
-	    if (placement.coordinateList.contains(coords))
+	    if (that.coordinateList.contains(coords))
 		return true;
 	}
 	return false;

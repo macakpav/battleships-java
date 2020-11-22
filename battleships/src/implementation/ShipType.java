@@ -104,7 +104,7 @@ public enum ShipType {
     }
 
     /**
-     * @return
+     * @return length of longest shipType known
      */
     public static int maxLen() {
 	int max_ = 0;

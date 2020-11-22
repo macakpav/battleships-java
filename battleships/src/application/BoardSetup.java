@@ -22,7 +22,7 @@ import implementation.ShipType;
  */
 public class BoardSetup {
     private ShipList shipList;
-    private int sizeX, sizeY;
+    private int noCols, noRows;
 
     /**
      * Maximum number of attempts when generating a random ship distribution.
@@ -30,20 +30,20 @@ public class BoardSetup {
     static private final int maxAttempts = 20;
 
     public BoardSetup() {
-	this.sizeX = 0;
-	this.sizeY = 0;
+	this.noCols = 0;
+	this.noRows = 0;
 	this.shipList = new ShipList();
     }
 
     public BoardSetup(int x, int y) {
-	this.sizeX = x;
-	this.sizeY = y;
+	this.noCols = x;
+	this.noRows = y;
 	this.shipList = new ShipList();
     }
 
     public void defualtInitialization() {
-	this.sizeX = 8;
-	this.sizeY = 8;
+	this.noCols = 8;
+	this.noRows = 8;
 	this.shipList.addShip(ShipType.CARRIER, 1, 1, 1, 5);
 	this.shipList.addShip(ShipType.BATTLESHIP, 2, 1, 2, 4);
 	this.shipList.addShip(ShipType.SUBMARINE, 3, 1, 3, 3);
@@ -65,11 +65,11 @@ public class BoardSetup {
 	    }
 
 	    // get the Board sizes
-	    this.sizeX = scan.nextInt();
+	    this.noRows = scan.nextInt();
 	    if (scan.hasNextInt())
-		this.sizeY = scan.nextInt();
+		this.noCols = scan.nextInt();
 	    else
-		this.sizeY = this.sizeX;
+		this.noCols = this.noRows;
 
 	    scan.skip("\\s?\\n?");
 	    InputFileLine processedLine = new InputFileLine();
@@ -112,11 +112,11 @@ public class BoardSetup {
      * @TODO Check if ship can fit horizontally or vertically (in case of small
      *       board)
      */
-    public boolean randomInit(int sx, int sy) {
-	assert (sx >= ShipType.maxLen() || sy >= ShipType.maxLen());
-	this.sizeX = sx;
-	this.sizeY = sy;
-	Random rand = new Random();
+    public boolean randomInit(int rows, int cols) {
+	assert (rows >= ShipType.maxLen() || cols >= ShipType.maxLen());
+	this.noRows = rows;
+	this.noCols = cols;
+	Random rand = new Random(); // 4687
 	boolean success = false;
 	ShipList randList;
 	for (int outerLoop = 0; outerLoop < BoardSetup.maxAttempts; outerLoop++) {
@@ -124,15 +124,15 @@ public class BoardSetup {
 	    for (ShipType shipType : ShipType.values()) {
 		success = false;
 		for (int i = 0; i < BoardSetup.maxAttempts; i++) {
-		    if (rand.nextBoolean() && this.sizeX >= shipType.LEN()) {
-			// put ship horizontally
-			int x = rand.nextInt(this.sizeX - shipType.LEN() + 1) + 1;
+		    if (rand.nextBoolean() && this.noRows >= shipType.LEN()) {
+			// put ship vertically
+			int row = rand.nextInt(this.noRows - shipType.LEN() + 1) + 1;
 //			System.out.println(x);
 			// minimum for x is one
-			int y = rand.nextInt(this.sizeY - 1) + 1;
+			int col = rand.nextInt(this.noCols - 1) + 1;
 			try {
-			    randList.addShip(shipType, x, y, x + shipType.LEN() - 1,
-				    y);
+			    randList.addShip(shipType, col, row, col,
+				    row + shipType.LEN() - 1);
 			} catch (IllegalArgumentException ia) {
 			    continue;
 			}
@@ -142,13 +142,14 @@ public class BoardSetup {
 			break;
 
 		    }
-		    // put ship vertically
-		    int x = rand.nextInt(this.sizeX - 1) + 1;
+		    // put ship horizontally
+		    int row = rand.nextInt(this.noRows - 1) + 1;
 		    // minimum for x is one
-		    int y = rand.nextInt(this.sizeY - shipType.LEN() + 1) + 1;
+		    int col = rand.nextInt(this.noCols - shipType.LEN() + 1) + 1;
 //		    System.out.println(y);
 		    try {
-			randList.addShip(shipType, x, y, x, y + shipType.LEN() - 1);
+			randList.addShip(shipType, col, row, col + shipType.LEN() - 1,
+				row);
 		    } catch (IllegalArgumentException ia) {
 			continue;
 		    }
@@ -180,17 +181,17 @@ public class BoardSetup {
     }
 
     /**
-     * @return the sizeX
+     * @return the number of tiles in x direction
      */
     public int getSizeX() {
-	return this.sizeX;
+	return this.noCols;
     }
 
     /**
-     * @return the sizeY
+     * @return the number of tiles in y direction
      */
     public int getSizeY() {
-	return this.sizeY;
+	return this.noRows;
     }
 
 }
