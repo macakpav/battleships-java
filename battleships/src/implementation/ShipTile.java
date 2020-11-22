@@ -9,6 +9,9 @@ package implementation;
  */
 public class ShipTile extends Tile {
 
+    /**
+     * Ship object residing on this tile.
+     */
     private Ship ship;
 
     /**
@@ -28,7 +31,11 @@ public class ShipTile extends Tile {
 
     @Override
     protected double pointsForReveleaning() {
-	return this.ship.getPointsPerHit();
+	int c = 1;
+	if (this.ship.isDestroyed())
+	    c = 2;
+
+	return c * this.ship.getPointsPerHit();
     }
 
     /**

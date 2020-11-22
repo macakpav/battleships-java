@@ -121,8 +121,8 @@ public class ShipList implements Iterable<Ship> {
      * @param ship Ship object to check.
      * @return True if any ship collides with this ship.
      */
-    private boolean checkOverlaps(Ship boardObject) {
-	return this.checkOverlaps(boardObject.getPlacement());
+    private boolean checkOverlaps(Ship ship) {
+	return this.checkOverlaps(ship.getPlacement());
     }
 
     /**
@@ -134,7 +134,7 @@ public class ShipList implements Iterable<Ship> {
     }
 
     /**
-     * String representation of each ship on new lines.
+     * String representation of each ship separated by new line.
      */
     @Override
     public String toString() {
@@ -145,5 +145,25 @@ public class ShipList implements Iterable<Ship> {
 	}
 	return str;
     }
+
+    /**
+     * Checks if all ships in the list have been sunk.
+     * 
+     * @return True if all ships are destroyed.
+     */
+    public boolean areAllSunk() {
+	for (Ship ship : this.ships) {
+	    if (!ship.isDestroyed())
+		return false;
+	}
+	return true;
+    }
+
+    /**
+     * Clear ships in the list.
+     */
+//    public void clearList() {
+//	this.ships.clear();
+//    }
 
 }

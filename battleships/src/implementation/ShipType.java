@@ -103,4 +103,17 @@ public enum ShipType {
 	return null;
     }
 
+    /**
+     * @return
+     */
+    public static int maxLen() {
+	int max_ = 0;
+	for (ShipType shipType : ShipType.values()) {
+	    if (max_ < shipType.LEN()) {
+		max_ = shipType.LEN();
+	    }
+	}
+	return max_;
+    }
+
 }

@@ -48,8 +48,16 @@ public abstract class Tile {
 	this.visible = true;
     }
 
+    /**
+     * @return Points awarded for revealing this tile.
+     */
     protected abstract double pointsForReveleaning();
 
+    /**
+     * Tell the tile, that it has been hit.
+     * 
+     * @throws Exception if the tile was already visible.
+     */
     protected abstract void hit() throws Exception;
 
     /**

@@ -5,6 +5,7 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 import implementation.ShipList;
@@ -20,44 +21,48 @@ import implementation.ShipType;
  *
  */
 public class BoardSetup {
-    private final ShipList shipList;
+    private ShipList shipList;
     private int sizeX, sizeY;
 
+    /**
+     * Maximum number of attempts when generating a random ship distribution.
+     */
+    static private final int maxAttempts = 20;
+
     public BoardSetup() {
-	this.sizeX = 6;
-	this.sizeY = 8;
-
+	this.sizeX = 0;
+	this.sizeY = 0;
 	this.shipList = new ShipList();
-	defualtInitialization();
     }
 
-    public BoardSetup(String filePath) throws IOException {
-	this.sizeX = 6;
-	this.sizeY = 8;
-
+    public BoardSetup(int x, int y) {
+	this.sizeX = x;
+	this.sizeY = y;
 	this.shipList = new ShipList();
-	this.initilazeFromFile(filePath);
     }
 
-    private void defualtInitialization() {
+    public void defualtInitialization() {
+	this.sizeX = 8;
+	this.sizeY = 8;
 	this.shipList.addShip(ShipType.CARRIER, 1, 1, 1, 5);
 	this.shipList.addShip(ShipType.BATTLESHIP, 2, 1, 2, 4);
 	this.shipList.addShip(ShipType.SUBMARINE, 3, 1, 3, 3);
 	this.shipList.addShip(ShipType.DESTROYER, 4, 1, 4, 2);
     }
 
-    public boolean initilazeFromFile() throws IOException {
-	return this.initilazeFromFile(getFile());
+    public boolean initilazeFromFile() {
+	return this.initilazeFromFile("src/application/input.txt");
     }
 
-    public boolean initilazeFromFile(String pathName) throws IOException {
-	return this.initilazeFromFile(getFile(pathName));
-    }
+    public boolean initilazeFromFile(String pathName) {
+	String line = "";
 
-    public boolean initilazeFromFile(File inputFile) {
-	try (Scanner scan = new Scanner(inputFile)) {
-	    if (!scan.hasNextInt())
-		throw new IOException("Expected an integer on first place!");
+	try (Scanner scan = new Scanner(new File(pathName))) {
+	    scan.skip("\n|\\s*");
+	    if (!scan.hasNextInt()) {
+		System.out.println(scan.nextLine());
+		throw new IOException("Expected an integer at the beginning!");
+	    }
 
 	    // get the Board sizes
 	    this.sizeX = scan.nextInt();
@@ -66,14 +71,15 @@ public class BoardSetup {
 	    else
 		this.sizeY = this.sizeX;
 
-	    scan.skip("\\s?\\n");
+	    scan.skip("\\s?\\n?");
 	    InputFileLine processedLine = new InputFileLine();
-	    String line = "";
 
 	    while (scan.hasNextLine()) {
 
-		line = scan.nextLine();
-		if (line.trim().equals(""))
+		line = scan.nextLine().trim();
+		if (line.startsWith("//")) // comment sign
+		    continue;
+		if (line.equals(""))
 		    continue;
 		processedLine.readLine(line);
 
@@ -92,27 +98,78 @@ public class BoardSetup {
 	    }
 	    return true;
 	} catch (Exception ex) {
-	    System.out.println("Reading file " + inputFile + " has failed.");
+	    System.out.println(
+		    "Reading file " + pathName + " has failed on line:\n" + line);
 	    System.out.println(ex);
 	    ex.printStackTrace();
 	}
 	return false;
     }
 
-    private static File getFile() throws IOException {
-	return getFile("src/application/input.txt");
-    }
+    /**
+     * Puts randomly one of each ship type.
+     * 
+     * @TODO Check if ship can fit horizontally or vertically (in case of small
+     *       board)
+     */
+    public boolean randomInit(int sx, int sy) {
+	assert (sx >= ShipType.maxLen() || sy >= ShipType.maxLen());
+	this.sizeX = sx;
+	this.sizeY = sy;
+	Random rand = new Random();
+	boolean success = false;
+	ShipList randList;
+	for (int outerLoop = 0; outerLoop < BoardSetup.maxAttempts; outerLoop++) {
+	    randList = new ShipList();
+	    for (ShipType shipType : ShipType.values()) {
+		success = false;
+		for (int i = 0; i < BoardSetup.maxAttempts; i++) {
+		    if (rand.nextBoolean() && this.sizeX >= shipType.LEN()) {
+			// put ship horizontally
+			int x = rand.nextInt(this.sizeX - shipType.LEN() + 1) + 1;
+//			System.out.println(x);
+			// minimum for x is one
+			int y = rand.nextInt(this.sizeY - 1) + 1;
+			try {
+			    randList.addShip(shipType, x, y, x + shipType.LEN() - 1,
+				    y);
+			} catch (IllegalArgumentException ia) {
+			    continue;
+			}
+//			System.out.println("Placed " + shipType.NAME() + " to "
+//				+ randList.toString());
+			success = true;
+			break;
 
-    private static File getFile(String pathName) throws IOException {
-	File file = new File(pathName);
-	if (file.exists() && !file.isDirectory())
-	    return file;
-	throw new IOException(
-		"Could not find a file on specified path:\n" + pathName);
-    }
-
-    public void randomInit() {
-
+		    }
+		    // put ship vertically
+		    int x = rand.nextInt(this.sizeX - 1) + 1;
+		    // minimum for x is one
+		    int y = rand.nextInt(this.sizeY - shipType.LEN() + 1) + 1;
+//		    System.out.println(y);
+		    try {
+			randList.addShip(shipType, x, y, x, y + shipType.LEN() - 1);
+		    } catch (IllegalArgumentException ia) {
+			continue;
+		    }
+//		    System.out.println("Placed " + shipType.NAME() + " to "
+//			    + randList.toString());
+		    success = true;
+		    break;
+		}
+		if (!success) {
+		    System.out.println(
+			    "Failed to randomly fit ship " + shipType.NAME());
+		    break;
+		}
+	    }
+	    if (success) {
+		System.out.println("Successful random initialization of the board.");
+		this.shipList = randList;
+		break;
+	    }
+	}
+	return success;
     }
 
     /**

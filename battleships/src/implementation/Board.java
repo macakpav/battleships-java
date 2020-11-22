@@ -18,17 +18,11 @@ public class Board {
      */
     private final ArrayList<Tile> tiles;
     /**
-     * size of board in horizontal direction
-     */
-    private final int sizeX;
-    /**
-     * size of board in vertical direction
-     */
-    private final int sizeY;
-    /**
      * number of tiles (sizeX*sizeY)
      */
     private final int noTiles;
+
+    private final BoardSetup setup;
 
     /**
      * Constructor using the BoardSetup class from application module.
@@ -37,13 +31,12 @@ public class Board {
      */
     public Board(BoardSetup setup) {
 	super();
-	this.sizeX = setup.getSizeX();
-	this.sizeY = setup.getSizeY();
-	this.noTiles = this.sizeX * this.sizeY;
+	this.setup = setup;
+	this.noTiles = this.setup.getSizeX() * this.setup.getSizeY();
 
 	this.tiles = new ArrayList<Tile>(this.noTiles);// initialize with capacity
 						       // noTiles
-	this.initTiles(setup.getShipList());
+	this.initTiles(this.setup.getShipList());
     }
 
     /**
@@ -99,9 +92,9 @@ public class Board {
      * @return Tile object
      */
     public Tile tile(int x, int y) {
-	assert (x <= this.sizeX);
-	assert (y <= this.sizeY);
-	return tile((x - 1) * this.sizeY + (y - 1));
+	assert (x <= this.getSizeX());
+	assert (y <= this.getSizeY());
+	return tile((x - 1) * this.getSizeY() + (y - 1));
     }
 
     /**
@@ -120,8 +113,8 @@ public class Board {
     @Override
     public String toString() {
 	String out = "";
-	for (int i = 1; i <= this.sizeX; i++) {
-	    for (int j = 1; j <= this.sizeY; j++) {
+	for (int i = 1; i <= this.getSizeX(); i++) {
+	    for (int j = 1; j <= this.getSizeY(); j++) {
 		out += this.tile(i, j).toString() + "\t";
 	    }
 	    out += "\n";
@@ -133,14 +126,14 @@ public class Board {
      * @return the sizeX
      */
     public int getSizeX() {
-	return this.sizeX;
+	return this.setup.getSizeX();
     }
 
     /**
      * @return the sizeY
      */
     public int getSizeY() {
-	return this.sizeY;
+	return this.setup.getSizeY();
     }
 
     /**
@@ -148,6 +141,13 @@ public class Board {
      */
     public int getNoTiles() {
 	return this.noTiles;
+    }
+
+    /**
+     * @return True if all ships are destroyed.
+     */
+    public boolean areAllSunk() {
+	return this.setup.getShipList().areAllSunk();
     }
 
 }

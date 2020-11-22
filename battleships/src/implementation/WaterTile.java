@@ -22,6 +22,7 @@ final class WaterTile extends Tile {
     /**
      * No points for hitting an empty tile.
      */
+    @Override
     public double pointsForReveleaning() {
 	return 0.0;
     }
