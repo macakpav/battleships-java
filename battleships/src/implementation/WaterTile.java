@@ -28,8 +28,9 @@ final class WaterTile extends Tile {
     }
 
     @Override
-    public void hit() throws Exception {
+    public HitType hit() throws Exception {
 	super.flip();
+	return HitType.MISS;
     }
 
     /**

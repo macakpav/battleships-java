@@ -32,7 +32,7 @@ public class Board {
     public Board(BoardSetup setup) {
 	super();
 	this.setup = setup;
-	this.noTiles = this.setup.getSizeX() * this.setup.getSizeY();
+	this.noTiles = this.setup.getCols() * this.setup.getRows();
 
 	this.tiles = new ArrayList<Tile>(this.noTiles);// initialize with capacity
 						       // noTiles
@@ -87,14 +87,14 @@ public class Board {
     /**
      * Get tile by coordinates.
      * 
-     * @param x integer
-     * @param y integer
+     * @param col integer
+     * @param row integer
      * @return Tile object
      */
-    public Tile tile(int x, int y) {
-	assert (x <= this.getSizeX());
-	assert (y <= this.getSizeY());
-	return tile((x - 1) + (y - 1));
+    public Tile tile(int col, int row) {
+	assert (col <= this.getCols());
+	assert (row <= this.getRows());
+	return tile((col - 1) + (row - 1) * getCols());
     }
 
     /**
@@ -113,8 +113,8 @@ public class Board {
     @Override
     public String toString() {
 	String out = "";
-	for (int i = 1; i <= this.getSizeX(); i++) {
-	    for (int j = 1; j <= this.getSizeY(); j++) {
+	for (int i = 1; i <= this.getCols(); i++) {
+	    for (int j = 1; j <= this.getRows(); j++) {
 		out += this.tile(i, j).toString() + "\t";
 	    }
 	    out += "\n";
@@ -125,15 +125,15 @@ public class Board {
     /**
      * @return the sizeX
      */
-    public int getSizeX() {
-	return this.setup.getSizeX();
+    public int getRows() {
+	return this.setup.getRows();
     }
 
     /**
      * @return the sizeY
      */
-    public int getSizeY() {
-	return this.setup.getSizeY();
+    public int getCols() {
+	return this.setup.getCols();
     }
 
     /**

@@ -41,16 +41,12 @@ class LinearPlacement extends Placement {
 	    throws IllegalArgumentException {
 	assert (begin != null);
 	assert (end != null);
-	if (begin.equals(end))
-	    throw new IllegalArgumentException("Coordiantes are identical!");
-	if (!begin.inLine(end))
-	    throw new IllegalArgumentException(
-		    "Coordinates " + begin + " and " + end + " are not in line!");
 	this.addCoord(begin);
-	if (begin.distance(end) > 1)
+	if (begin.distance(end) >= 1) {
 	    for (Coords coord : begin.inBetween(end))
 		this.addCoord(coord);
-	this.addCoord(end);
+	    this.addCoord(end);
+	}
     }
 
     /**

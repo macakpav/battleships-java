@@ -22,10 +22,10 @@ final class Ship {
      */
     private int noHiddenTiles;
 
-    protected Ship(int id, ShipType shipType, LinearPlacement linearPlacement) {
+    protected Ship(int id, ShipType shipType, Placement placement) {
 	this.id = id;
-	assert (shipType.LEN() == linearPlacement.len());
-	this.placement = linearPlacement;
+	assert (shipType.LEN() == placement.len());
+	this.placement = placement;
 	this.shipType = shipType;
 	this.noHiddenTiles = shipType.LEN();
     }

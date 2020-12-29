@@ -75,14 +75,14 @@ public class ShipList implements Iterable<Ship> {
      * @param linearPlacement holding coordinates of the ship
      * @throws IllegalArgumentException
      */
-    public void addShip(ShipType shipType, LinearPlacement linearPlacement)
+    public void addShip(ShipType shipType, Placement placement)
 	    throws IllegalArgumentException {
 //	System.out.println(linearPlacement);
-	if (shipType.LEN() != linearPlacement.len())
+	if (shipType.LEN() != placement.len())
 	    throw new IllegalArgumentException(
 		    "Length of ship is different from length placement!");
 
-	this.add(new Ship(this.ships.size(), shipType, linearPlacement));
+	this.add(new Ship(this.ships.size(), shipType, placement));
     }
 
     /**

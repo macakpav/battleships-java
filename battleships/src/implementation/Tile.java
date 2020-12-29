@@ -58,7 +58,7 @@ public abstract class Tile {
      * 
      * @throws Exception if the tile was already visible.
      */
-    protected abstract void hit() throws Exception;
+    protected abstract HitType hit() throws Exception;
 
     /**
      * @return Color that this Tile should be displayed with. Depends whether it was

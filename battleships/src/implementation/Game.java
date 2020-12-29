@@ -3,6 +3,10 @@
  */
 package implementation;
 
+import java.awt.Color;
+
+import application.BoardSetup;
+
 /**
  * @author Pavel Mačák
  *
@@ -10,39 +14,130 @@ package implementation;
 public class Game {
     private Board board;
     private ScoringSystem scoringSystem;
-    // private GUI gui;
     private Player playerOne;
     private Player playerTwo;
     private Player playerOnTurn;
+    private String lastPlayComment;
+    private boolean gameEnded;
     public int turnNumber;
+
+    /**
+     * Short initialization of Game instance. Player one and player two will have
+     * default names.
+     * 
+     * @param boardSetup    setup for creating a board.
+     * @param scoringSystem used for counting points.
+     */
+    public Game(BoardSetup boardSetup, EqualScoringSystem scoringSystem) {
+	this(new Board(boardSetup), scoringSystem);
+    }
+
+    /**
+     * Short initialization of Game instance. Player one and player two will have
+     * default names.
+     * 
+     * @param board         that the game will be played on.
+     * @param scoringSystem used for counting points.
+     */
+    public Game(Board board, ScoringSystem scoringSystem) {
+	this(board, scoringSystem, new Player("Player One"),
+		new Player("Player Two"));
+    }
+
+    /**
+     * Basic initialization of Game instance.
+     * 
+     * @param boardSetup    setup for creating a board.
+     * @param scoringSystem used for counting points.
+     */
+    public Game(BoardSetup boardSetup, ScoringSystem scoringSystem, Player one,
+	    Player two) {
+	this(new Board(boardSetup), scoringSystem, one, two);
+    }
 
     /**
      * Basic initialization of Game instance.
      * 
      * @param board         that the game will be played on.
      * @param scoringSystem used for counting points.
+     * @param one           first player.
+     * @param two           second player.
      */
-    public Game(Board board, ScoringSystem scoringSystem) {
+    public Game(Board board, ScoringSystem scoringSystem, Player one, Player two) {
 	this.board = board;
 	this.scoringSystem = scoringSystem;
-	this.playerOne = new Player("PlayerOne");
-	this.playerTwo = new Player("PlayerTwo");
+	this.playerOne = one;
+	this.playerTwo = two;
 	this.playerOnTurn = this.playerOne;
 	this.turnNumber = 1;
+	this.gameEnded = false;
+    }
+
+    /**
+     * Process a "mouse click" signal on tile.
+     * 
+     * @param tileID of the tile which was clicked on.
+     * @return True if state of game changed.
+     */
+    public boolean clickOnTile(int tileID) {
+	return clickOnTile(this.board.tile(tileID));
     }
 
     /**
      * Process a "mouse click" signal on tile.
      * 
      * @param tile which was clicked on.
+     * @return True if state of game changed.
      */
-    public void clickOnTile(Tile tile) {
+    public boolean clickOnTile(Tile tile) {
+	if (this.gameEnded)
+	    return false;
 	if (!tile.isVisible()) {
-	    this.fire(this.playerOnTurn, tile);
-	    this.nextPlayer();
-	} else {
-	    System.out.println("Tile is already visible.");
+	    HitType hit = this.fire(this.playerOnTurn, tile);
+	    if (!(hit == HitType.HIT)) {
+		nextPlayer();
+	    }
+	    if (hit == HitType.SINK) {
+		this.gameEnded = this.board.areAllSunk();
+	    }
+	    changeComment(hit);
+	    return true;
 	}
+	changeComment("Tile is already visible.");
+//	    System.out.println("Tile is already visible.");
+	return false;
+
+    }
+
+    /**
+     * @param hit
+     */
+    private void changeComment(HitType hit) {
+	assert (hit != null);
+	switch (hit) {
+	case MISS:
+	    changeComment("Well that one went far away from its target.");
+	    break;
+	case HIT:
+	    changeComment("Direct hit! Keep going!");
+	    break;
+	case SINK:
+	    changeComment(
+		    "Boom! This one is going down. Now let the other player to the cannon.");
+	    break;
+	default:
+	    break;
+	}
+    }
+
+    /**
+     * @param string
+     */
+    private void changeComment(String string) {
+	if (this.gameEnded)
+	    this.lastPlayComment = "The game is over!";
+	else
+	    this.lastPlayComment = string;
     }
 
     /**
@@ -50,19 +145,23 @@ public class Game {
      * 
      * @param player who fired
      * @param tile   that he wants to hit
+     * @return type of hit: miss, hit or sink
      */
-    private void fire(Player player, Tile tile) {
+    private HitType fire(Player player, Tile tile) {
+	HitType hit = null;
 	try {
-	    tile.hit();
+	    hit = tile.hit();
 	    player.addPoints(tile.pointsForReveleaning(), this.scoringSystem);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.out.println(e);
 	}
+	return hit;
+
     }
 
     /**
-     * Switch the playerOrTurn. Proceed to next turn if playerTwo played his move.
+     * Switch the playerOrTurn. Proceed to next turn.
      */
     private void nextPlayer() {
 	if (this.playerOnTurn.equals(this.playerOne))
@@ -84,9 +183,29 @@ public class Game {
      * @return current standings of players.
      */
     public String scoreString() {
-	return "Turn " + this.turnNumber + "\n" + this.playerOne.getName() + " has "
-		+ this.playerOne.getScore() + "points \n" + this.playerTwo.getName()
-		+ " has " + this.playerTwo.getScore() + "points \n";
+	return "Turn " + this.turnNumber + "\n" + playerOneName() + " has "
+		+ playerOneScore() + "points \n" + playerTwoName() + " has "
+		+ playerTwoScore() + "points \n";
+    }
+
+    public String playerOneScore() {
+	return String.valueOf(this.playerOne.getScore());
+    }
+
+    public String playerTwoScore() {
+	return String.valueOf(this.playerTwo.getScore());
+    }
+
+    public String playerTwoName() {
+	return this.playerTwo.getName();
+    }
+
+    public String playerOneName() {
+	return this.playerOne.getName();
+    }
+
+    public String playerOnTurnName() {
+	return this.playerOnTurn.getName();
     }
 
     /**
@@ -105,6 +224,69 @@ public class Game {
      */
     public void consolePrint() {
 	System.out.println(this.toString());
+    }
+
+    public int getCols() {
+	return this.board.getCols();
+    }
+
+    public int getRows() {
+	return this.board.getRows();
+    }
+
+    public Color getTileColor(int id) {
+	return this.board.tile(id).getColor().COLOR();
+    }
+
+    public String getComment() {
+	return this.lastPlayComment;
+    }
+
+    public boolean isOver() {
+	return this.gameEnded;
+    }
+
+    private int getWinner() {
+	if (!this.gameEnded)
+	    return -1;
+	if (this.playerOne.getScore() == this.playerTwo.getScore())
+	    return 0;
+	if (this.playerOne.getScore() > this.playerTwo.getScore())
+	    return 1;
+
+	return 2;
+    }
+
+    public String getWinnerName() {
+	switch (getWinner()) {
+	case 0:
+	    return playerOneName() + "and" + playerTwoName();
+	case 1:
+	    return playerOneName();
+	case 2:
+	    return playerTwoName();
+	}
+	return "";
+
+    }
+
+    public double getWinnerScore() {
+	switch (getWinner()) {
+	case 0:
+	    return this.playerOne.getScore();
+	case 1:
+	    return this.playerOne.getScore();
+	case 2:
+	    return this.playerTwo.getScore();
+	}
+	return -1;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isTie() {
+	return getWinner() == 0;
     }
 
 }

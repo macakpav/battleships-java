@@ -7,19 +7,25 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-class Player {
+public class Player {
     private String name;
     private double score;
+    private final String myDefaultName;
 
     /**
      * Basic constructor with score initialized to zero.
      * 
      * @param name
      */
-    protected Player(String name) {
+    public Player(String name) {
 	super();
-	this.name = name;
 	this.score = 0.0;
+	if (name == null || name.trim().equals("")) {
+	    this.name = "Empty name";
+	} else {
+	    this.name = name;
+	}
+	this.myDefaultName = this.name;
     }
 
     /**
@@ -40,8 +46,19 @@ class Player {
     /**
      * @return the player's name
      */
-    protected String getName() {
+    public String getName() {
 	return this.name;
+    }
+
+    /**
+     * @param name new name for the player.
+     */
+    public void setName(String name) {
+	if (name.trim().equals("")) {
+	    this.name = this.myDefaultName;
+	} else {
+	    this.name = name;
+	}
     }
 
     @Override

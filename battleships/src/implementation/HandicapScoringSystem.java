@@ -15,8 +15,22 @@ public final class HandicapScoringSystem extends UnequalScoringSystem {
 	this.handicap = handicap;
     }
 
+    /**
+     * @return the handicap
+     */
+    public double getHandicap() {
+	return this.handicap;
+    }
+
+    /**
+     * @param handicap the handicap to set
+     */
+    public void setHandicap(double handicap) {
+	this.handicap = handicap;
+    }
+
     @Override
-    protected double pointsOnHit(double points, Player scoringPlayer) {
+    public double pointsOnHit(double points, Player scoringPlayer) {
 	double coef = 1.0;
 	if (super.handicapedPlayer.equals(scoringPlayer))
 	    coef = this.handicap;
@@ -25,7 +39,12 @@ public final class HandicapScoringSystem extends UnequalScoringSystem {
 
     @Override
     public String toString() {
-	return "HandicapScoringSystem[" + this.handicap + "]";
+	return "Handicap scoring system[" + this.handicap + "]";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+	return (obj instanceof HandicapScoringSystem)
+		&& ((HandicapScoringSystem) obj).getHandicap() == this.handicap;
+    }
 }

@@ -7,6 +7,6 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-abstract class ScoringSystem {
-    protected abstract double pointsOnHit(double points, Player scoringPlayer);
+public abstract interface ScoringSystem {
+    public abstract double pointsOnHit(double points, Player scoringPlayer);
 }

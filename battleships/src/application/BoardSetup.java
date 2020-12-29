@@ -14,8 +14,6 @@ import implementation.ShipType;
 /**
  * Class holding necessary variables to initialize an instance of Board.
  * 
- * @apiNote (TODO) Initialization from file. (TODO) Initialization from GUI
- *          elements.
  * 
  * @author Pavel Mačák
  *
@@ -30,24 +28,9 @@ public class BoardSetup {
     static private final int maxAttempts = 20;
 
     public BoardSetup() {
-	this.noCols = 0;
-	this.noRows = 0;
-	this.shipList = new ShipList();
-    }
-
-    public BoardSetup(int x, int y) {
-	this.noCols = x;
-	this.noRows = y;
-	this.shipList = new ShipList();
-    }
-
-    public void defualtInitialization() {
 	this.noCols = 8;
 	this.noRows = 8;
-	this.shipList.addShip(ShipType.CARRIER, 1, 1, 1, 5);
-	this.shipList.addShip(ShipType.BATTLESHIP, 2, 1, 2, 4);
-	this.shipList.addShip(ShipType.SUBMARINE, 3, 1, 3, 3);
-	this.shipList.addShip(ShipType.DESTROYER, 4, 1, 4, 2);
+	randomInit(this.noRows, this.noCols);
     }
 
     public boolean initilazeFromFile() {
@@ -55,6 +38,7 @@ public class BoardSetup {
     }
 
     public boolean initilazeFromFile(String pathName) {
+	this.shipList = new ShipList();
 	String line = "";
 
 	try (Scanner scan = new Scanner(new File(pathName))) {
@@ -109,10 +93,16 @@ public class BoardSetup {
     /**
      * Puts randomly one of each ship type.
      * 
-     * @TODO Check if ship can fit horizontally or vertically (in case of small
-     *       board)
      */
     public boolean randomInit(int rows, int cols) {
+	return randomInit(rows, cols, new ShipCounter());
+    }
+
+    /**
+     * Puts randomly each ship type in quantity specified by shipCounter.
+     * 
+     */
+    public boolean randomInit(int rows, int cols, ShipCounter shipCounter) {
 	assert (rows >= ShipType.maxLen() || cols >= ShipType.maxLen());
 	this.noRows = rows;
 	this.noCols = cols;
@@ -122,46 +112,51 @@ public class BoardSetup {
 	for (int outerLoop = 0; outerLoop < BoardSetup.maxAttempts; outerLoop++) {
 	    randList = new ShipList();
 	    for (ShipType shipType : ShipType.values()) {
-		success = false;
-		for (int i = 0; i < BoardSetup.maxAttempts; i++) {
-		    if (rand.nextBoolean() && this.noRows >= shipType.LEN()) {
-			// put ship vertically
-			int row = rand.nextInt(this.noRows - shipType.LEN() + 1) + 1;
+		for (int count = 0; count < shipCounter
+			.getShipCount(shipType); count++) {
+
+		    success = false;
+		    for (int i = 0; i < BoardSetup.maxAttempts; i++) {
+			if (rand.nextBoolean() && this.noRows >= shipType.LEN()) {
+			    // put ship vertically
+			    int row = rand.nextInt(this.noRows - shipType.LEN() + 1)
+				    + 1;
 //			System.out.println(x);
+			    // minimum for x is one
+			    int col = rand.nextInt(this.noCols - 1) + 1;
+			    try {
+				randList.addShip(shipType, col, row, col,
+					row + shipType.LEN() - 1);
+			    } catch (IllegalArgumentException ia) {
+				continue;
+			    }
+//			System.out.println("Placed " + shipType.NAME() + " to "
+//				+ randList.toString());
+			    success = true;
+			    break;
+
+			}
+			// put ship horizontally
+			int row = rand.nextInt(this.noRows - 1) + 1;
 			// minimum for x is one
-			int col = rand.nextInt(this.noCols - 1) + 1;
+			int col = rand.nextInt(this.noCols - shipType.LEN() + 1) + 1;
+//		    System.out.println(y);
 			try {
-			    randList.addShip(shipType, col, row, col,
-				    row + shipType.LEN() - 1);
+			    randList.addShip(shipType, col, row,
+				    col + shipType.LEN() - 1, row);
 			} catch (IllegalArgumentException ia) {
 			    continue;
 			}
-//			System.out.println("Placed " + shipType.NAME() + " to "
-//				+ randList.toString());
-			success = true;
-			break;
-
-		    }
-		    // put ship horizontally
-		    int row = rand.nextInt(this.noRows - 1) + 1;
-		    // minimum for x is one
-		    int col = rand.nextInt(this.noCols - shipType.LEN() + 1) + 1;
-//		    System.out.println(y);
-		    try {
-			randList.addShip(shipType, col, row, col + shipType.LEN() - 1,
-				row);
-		    } catch (IllegalArgumentException ia) {
-			continue;
-		    }
 //		    System.out.println("Placed " + shipType.NAME() + " to "
 //			    + randList.toString());
-		    success = true;
-		    break;
-		}
-		if (!success) {
-		    System.out.println(
-			    "Failed to randomly fit ship " + shipType.NAME());
-		    break;
+			success = true;
+			break;
+		    }
+		    if (!success) {
+			System.out.println(
+				"Failed to randomly fit ship " + shipType.NAME());
+			break;
+		    }
 		}
 	    }
 	    if (success) {
@@ -183,15 +178,22 @@ public class BoardSetup {
     /**
      * @return the number of tiles in x direction
      */
-    public int getSizeX() {
+    public int getCols() {
 	return this.noCols;
     }
 
     /**
      * @return the number of tiles in y direction
      */
-    public int getSizeY() {
+    public int getRows() {
 	return this.noRows;
+    }
+
+    /**
+     * @return the overall number of tiles
+     */
+    public int getSize() {
+	return this.noCols * this.noRows;
     }
 
 }

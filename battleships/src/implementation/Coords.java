@@ -125,7 +125,6 @@ public class Coords extends Object {
      */
     private boolean inLineVertically(Coords that) {
 	assert (that != null);
-	// TODO Auto-generated method stub
 	return this.yCoord == that.yCoord && this.xCoord != that.xCoord;
     }
 
@@ -142,7 +141,7 @@ public class Coords extends Object {
 	assert (this.inLine(that));
 
 	if (this.distance(that) == 1)
-	    return null;
+	    return new Coords[0];
 	Coords[] coordsInBetween = new Coords[this.distance(that) - 1];
 
 	int i = 0;

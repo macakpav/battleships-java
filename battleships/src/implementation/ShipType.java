@@ -12,10 +12,13 @@ package implementation;
  *
  */
 public enum ShipType {
-    CARRIER('C', "Carrier", 5, 6, TileColor.ORANGE),
-    BATTLESHIP('B', "Battleship", 4, 5, TileColor.RED),
-    SUBMARINE('S', "Submarine", 3, 3, TileColor.PURPLE),
-    DESTROYER('D', "Destroyer", 2, 1, TileColor.GREEN);
+    CARRIER('A', "Airplane Carrier", 5, 6, TileColor.ORANGE),
+    BATTLESHIP('B', "Battleship", 4, 5, TileColor.GREEN),
+    SUBMARINE('S', "Submarine", 3, 3, TileColor.RED),
+//    BATTLECRUISER('C', "Battlecruiser", 6, 6, TileColor.WHITE),
+//    SPEEDBOAT('S', "Speedboat", 1, 1, TileColor.YELLOW),
+//  AIRPLANE('A', "Airplane", 1, 1, TileColor.YELLOW),
+    DESTROYER('D', "Destroyer", 2, 1, TileColor.PINK);
 
     /**
      * One character abbreviation of ships name.
@@ -114,6 +117,19 @@ public enum ShipType {
 	    }
 	}
 	return max_;
+    }
+
+    public static int noShipTypes() {
+	return ShipType.values().length;
+    }
+
+    public static String shipTypeSummary() {
+	String str = "";
+	for (ShipType type : ShipType.values()) {
+	    str += type.NAME() + "(" + type.COLOR().toString() + ") - length: "
+		    + type.LEN() + System.lineSeparator();
+	}
+	return str;
     }
 
 }

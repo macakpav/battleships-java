@@ -7,16 +7,21 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public final class EqualScoringSystem extends ScoringSystem {
+public final class EqualScoringSystem implements ScoringSystem {
 
     @Override
-    protected double pointsOnHit(double points, Player scoringPlayer) {
+    public double pointsOnHit(double points, Player scoringPlayer) {
 	return points;
     }
 
     @Override
     public String toString() {
-	return "EqualScoringSystem";
+	return "Equal scoring system";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return (obj instanceof EqualScoringSystem);
     }
 
 }

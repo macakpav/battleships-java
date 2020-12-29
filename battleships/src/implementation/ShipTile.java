@@ -24,9 +24,14 @@ public class ShipTile extends Tile {
     }
 
     @Override
-    protected void hit() throws Exception {
+    protected HitType hit() throws Exception {
 	super.flip();
 	this.ship.hit();
+	if (this.ship.isDestroyed()) {
+	    return HitType.SINK;
+	}
+	return HitType.HIT;
+
     }
 
     @Override
