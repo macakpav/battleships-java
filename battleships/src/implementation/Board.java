@@ -38,7 +38,6 @@ class Board {
 	 * @param boardObjectList
 	 */
 	private void initTiles(ShipList shipList) {
-		System.out.println(shipList);
 		for (int i = 0; i < this.noTiles; i++) {
 			this.tiles.add(new WaterTile(i));
 		}

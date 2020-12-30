@@ -156,7 +156,6 @@ public class BoardSetup {
 				}
 			}
 			if (success) {
-				System.out.println("Successful random initialization of the board.");
 				this.shipList = randList;
 				break;
 			}
