@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
 	p2.add(btnScoring);
 	p2.setBorder(BorderFactory.createEmptyBorder(5, 50, 10, 50));
 
-	lblP1 = new JLabel("First player's name:");
+	lblP1 = new JLabel("Starting player's name:");
 	lblP2 = new JLabel("Second player's name:");
 	txtP1 = new JTextField(playerOne.getName(), 12);
 	txtP2 = new JTextField(playerTwo.getName(), 12);
