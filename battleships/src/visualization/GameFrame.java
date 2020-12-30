@@ -47,11 +47,11 @@ class GameFrame extends JFrame {
     private final Game game;
     private final HighScoreManager hsManager;
 
-    JButton btnHighScores, btnQuitGame, btnShipTypes;
-    JLabel lblPlayerOne, lblPlayerTwo, lblTurn, lblPlayerOneScore, lblPlayerTwoScore,
-	    lblPlayerOnTurn, lblStatusBar;
-    JButton[] tiles;
-    JPanel p1, p1btnH, p1btnQ, p1btnR, p2, pWrapper, pStatusBar;
+    private final JButton btnHighScores, btnQuitGame, btnShipTypes;
+    private final JLabel lblPlayerOne, lblPlayerTwo, lblTurn, lblPlayerOneScore,
+	    lblPlayerTwoScore, lblPlayerOnTurn, lblStatusBar;
+    private final JButton[] tiles;
+    private final JPanel p1, p1btnH, p1btnQ, p1btnR, p2, pWrapper, pStatusBar;
 
     GameFrame(JFrame parent_, HighScoreManager hsManager_, Game game_) {
 	super(title);

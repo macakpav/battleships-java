@@ -22,7 +22,7 @@ public enum TileColor {
     ORANGE(Color.ORANGE),
     NONE(null);
 
-    public Color color;
+    public final Color color;
 
     TileColor(Color color) {
 	this.color = color;

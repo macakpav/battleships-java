@@ -51,19 +51,20 @@ class PlacementDialog {
 
     private final BoardSetup setup;
 
-    JDialog dialog;
-    JLabel[] lblShipTypes;
-    ShipCountSpinner[] spinShipCounts;
-    JButton btnFilePath, btnApply, btnApplyClose, btnClose, btnChoseShipNumbers;
-    JLabel lblTitle, lblRandomInit, lblFileInit, lblBoardSize, lblRows, lblCols;
-    JRadioButton rbRandomInit, rbFileInit;
-    JSpinner spinRows, spinCols;
-    JTextField txtFilePath;
-    JFileChooser fileChooser;
-    JPanel p1, p11, p12, pBoardSize, p2, p21, p3, pShipNumbers;
-    SwingWorker<Boolean, Integer> randomInitBackgroundTask;
+    private final JDialog dialog;
+    private final JLabel[] lblShipTypes;
+    private final ShipCountSpinner[] spinShipCounts;
+    private final JButton btnFilePath, btnApply, btnApplyClose, btnClose,
+	    btnChoseShipNumbers;
+    private final JLabel lblTitle, lblBoardSize, lblRows, lblCols;
+    private final JRadioButton rbRandomInit, rbFileInit;
+    private final JSpinner spinRows, spinCols;
+    private final JTextField txtFilePath;
+    private final JFileChooser fileChooser;
+    private final JPanel p1, p11, p12, pBoardSize, p2, p21, p3, pShipNumbers;
+    private SwingWorker<Boolean, Integer> randomInitBackgroundTask;
 
-    ShipCounter shipCounter;
+    private ShipCounter shipCounter;
 
     PlacementDialog(JFrame parentFrame_, BoardSetup setup_) {
 	shipCounter = new ShipCounter();
@@ -124,6 +125,7 @@ class PlacementDialog {
 
 	btnChoseShipNumbers = new JButton("Choose number of ships");
 	btnChoseShipNumbers.addActionListener(new ActionListener() {
+
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 

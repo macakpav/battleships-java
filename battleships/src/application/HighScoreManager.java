@@ -24,7 +24,7 @@ public class HighScoreManager {
 	    separator = HighScore.separator;
     private static final int maxHScount = 10;
 
-    private ArrayList<HighScore> highScores;
+    private final ArrayList<HighScore> highScores;
 
     public HighScoreManager() {
 	this.highScores = new ArrayList<HighScore>();

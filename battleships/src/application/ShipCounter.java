@@ -16,7 +16,7 @@ import implementation.ShipType;
  */
 public class ShipCounter {
 
-    private HashMap<ShipType, Integer> shipNumbers;
+    private final HashMap<ShipType, Integer> shipNumbers;
 
     public ShipCounter() {
 	this.shipNumbers = new HashMap<ShipType, Integer>();

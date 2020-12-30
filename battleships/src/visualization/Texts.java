@@ -45,7 +45,7 @@ public enum Texts {
 	this.str = str;
     }
 
-    String str;
+    private final String str;
 
     public String str() {
 	return str;

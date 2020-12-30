@@ -39,10 +39,10 @@ public class Player {
 
     /**
      * @param points        the points to add to player's score
-     * @param scoringSystem system of adding points to player's score
+     * @param iScoringSystem system of adding points to player's score
      */
-    protected void addPoints(double points, ScoringSystem scoringSystem) {
-	this.score += scoringSystem.pointsOnHit(points, this);
+    protected void addPoints(double points, IScoringSystem iScoringSystem) {
+	this.score += iScoringSystem.pointsOnHit(points, this);
     }
 
     /**

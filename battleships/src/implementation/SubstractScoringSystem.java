@@ -32,6 +32,8 @@ public class SubstractScoringSystem extends HandicapScoringSystem {
 
     @Override
     public double pointsOnHit(double points, Player scoringPlayer) {
+	if (points == 0.0)
+	    return 0.0;
 	double coef = 0.0;
 	if (super.handicapedPlayer.equals(scoringPlayer))
 	    coef = super.handicapCoeficient;

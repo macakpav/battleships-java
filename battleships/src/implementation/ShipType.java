@@ -23,23 +23,23 @@ public enum ShipType {
     /**
      * One character abbreviation of ships name.
      */
-    private char abbreviation;
+    private final char abbreviation;
     /**
      * String representing the ship (f.e. in printed output, inplacement file etc.).
      */
-    private String name;
+    private final String name;
     /**
      * How many tiles the ship takes.
      */
-    private int length;
+    private final int length;
     /**
      * Points for a successful hit of the ship.
      */
-    private int pointsPerHit;
+    private final int pointsPerHit;
     /**
      * The color of tile assigned to the ship.
      */
-    private TileColor color;
+    private final TileColor color;
 
     /**
      * Enum constructor.

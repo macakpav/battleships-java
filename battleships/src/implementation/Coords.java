@@ -13,8 +13,8 @@ package implementation;
  *
  */
 public class Coords extends Object {
-    private int xCoord; // horizontal coordinate
-    private int yCoord; // vertical coordinate
+    private final int xCoord; // horizontal coordinate
+    private final int yCoord; // vertical coordinate
 
     /**
      * Simple constructor from tow coordinates.

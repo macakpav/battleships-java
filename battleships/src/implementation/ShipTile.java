@@ -14,7 +14,7 @@ class ShipTile extends Tile {
     /**
      * Ship object residing on this tile.
      */
-    private Ship ship;
+    private final Ship ship;
 
     /**
      * @param id   ID of the tile

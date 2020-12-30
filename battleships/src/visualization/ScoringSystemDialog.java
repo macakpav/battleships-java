@@ -16,7 +16,7 @@ import javax.swing.JRadioButton;
 import implementation.EqualScoringSystem;
 import implementation.MultiplierScoringSystem;
 import implementation.Player;
-import implementation.ScoringSystem;
+import implementation.IScoringSystem;
 import implementation.SubstractScoringSystem;
 
 /**
@@ -38,8 +38,8 @@ class ScoringSystemDialog {
     private final Player pOne;
     private final Player pTwo;
     private JPanel dialogPanel;
-    private ScoringSystem[] ssOptions;
-    private ScoringSystem selectedSystem;
+    private IScoringSystem[] ssOptions;
+    private IScoringSystem selectedSystem;
 
     ScoringSystemDialog(JFrame parent_, Player pOne_, Player pTwo_) {
 	super();
@@ -48,7 +48,7 @@ class ScoringSystemDialog {
 	this.pTwo = pTwo_;
 	dialogPanel = new JPanel();
 	dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.PAGE_AXIS));
-	ssOptions = new ScoringSystem[] { new EqualScoringSystem(),
+	ssOptions = new IScoringSystem[] { new EqualScoringSystem(),
 		new MultiplierScoringSystem(0.9, pOne),
 		new SubstractScoringSystem(50, pOne) };
 	ButtonGroup group = new ButtonGroup();
@@ -67,7 +67,7 @@ class ScoringSystemDialog {
 
     }
 
-    ScoringSystem showDialog() {
+    IScoringSystem showDialog() {
 	JOptionPane.showMessageDialog(this.parent, this.dialogPanel, "Scoring system",
 		JOptionPane.PLAIN_MESSAGE);
 	return selectedSystem;
@@ -75,9 +75,9 @@ class ScoringSystemDialog {
 
     private class ChangeSystemActionListener implements ActionListener {
 
-	private ScoringSystem btnSystem;
+	private IScoringSystem btnSystem;
 
-	private ChangeSystemActionListener(ScoringSystem selectedSystem) {
+	private ChangeSystemActionListener(IScoringSystem selectedSystem) {
 	    super();
 	    this.btnSystem = selectedSystem;
 	}

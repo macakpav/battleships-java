@@ -13,11 +13,11 @@ abstract class Tile {
     /**
      * ID of tile, also index of this tile in tiles array of Board class.
      */
-    private int id;
+    private final int id;
     /**
      * Color of the tile when revealed.
      */
-    private TileColor color;
+    private final TileColor color;
     /**
      * Indicates if the tile has been revealed.
      */

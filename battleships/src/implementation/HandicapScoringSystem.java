@@ -9,8 +9,8 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-abstract class HandicapScoringSystem implements ScoringSystem {
-    protected Player handicapedPlayer;
+abstract class HandicapScoringSystem implements IScoringSystem {
+    protected final Player handicapedPlayer;
     protected double handicapCoeficient;
 
     protected HandicapScoringSystem(Player handicapedPlayer,

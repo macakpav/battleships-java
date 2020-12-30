@@ -1,10 +1,10 @@
 Frodo scored 10000.0
+Gandalf scored 9000.0
 Frodo scored 6900.0
 Frodo scored 5600.0
 Gandalf scored 5500.0
 Gandalf scored 5500.0
 Gandalf scored 4300.0
 Frodo scored 3780.0
-Nobody scored 0.0
 Nobody scored 0.0
 Nobody scored 0.0

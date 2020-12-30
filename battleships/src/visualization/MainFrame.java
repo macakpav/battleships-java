@@ -26,8 +26,8 @@ import application.BoardSetup;
 import application.HighScoreManager;
 import implementation.EqualScoringSystem;
 import implementation.Game;
+import implementation.IScoringSystem;
 import implementation.Player;
-import implementation.ScoringSystem;
 
 /**
  * The main menu window.
@@ -44,31 +44,31 @@ public class MainFrame extends JFrame {
 	    rules = Texts.RULES.str();
 
     // GUI objects
-    private JLabel lblWelcome, lblComment, lblP1, lblP2;
+    private final JLabel lblWelcome, lblComment, lblP1, lblP2;
 
-    private JButton btnPlacement, btnScoring, btnStart, btnRules, btnHighScores,
+    private final JButton btnPlacement, btnScoring, btnStart, btnRules, btnHighScores,
 	    btnExit;
 
-    private JTextField txtP1, txtP2;
+    private final JTextField txtP1, txtP2;
 
-    private JTextArea txtRules;
+    private final JTextArea txtRules;
 
-    private JPanel p1, p2, pNames, pNamesSub1, pNamesSub2, p3, p4;
+    private final JPanel p1, p2, pNames, pNamesSub1, pNamesSub2, p3, p4;
 
     // pop-up dialogs
-    private ScoringSystemDialog scoringSystemDialog;
-    private PlacementDialog placementDialog;
+    private final ScoringSystemDialog scoringSystemDialog;
+    private final PlacementDialog placementDialog;
 
     // game objects
-    private ScoringSystem scoringSystem;
-    private HighScoreManager highScoreManager;
+    private IScoringSystem iScoringSystem;
+    private final HighScoreManager highScoreManager;
     private BoardSetup boardSetup;
     private Player playerOne, playerTwo;
     private SwingWorker<Boolean, Integer> gameBackgroundTask;
 
     public MainFrame() {
 	super(title);
-	scoringSystem = new EqualScoringSystem();
+	iScoringSystem = new EqualScoringSystem();
 	boardSetup = new BoardSetup();
 	highScoreManager = new HighScoreManager();
 	playerOne = new Player("Frodo");
@@ -103,7 +103,7 @@ public class MainFrame extends JFrame {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		scoringSystem = MainFrame.this.scoringSystemDialog.showDialog();
+		iScoringSystem = MainFrame.this.scoringSystemDialog.showDialog();
 	    }
 	});
 
@@ -224,7 +224,7 @@ public class MainFrame extends JFrame {
 			playerTwo.setName(txtP2.getText().trim());
 
 			new GameFrame(MainFrame.this, highScoreManager, new Game(
-				boardSetup, scoringSystem, playerOne, playerTwo));
+				boardSetup, iScoringSystem, playerOne, playerTwo));
 			return true;
 		    }
 

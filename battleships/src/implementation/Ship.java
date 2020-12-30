@@ -11,12 +11,12 @@ package implementation;
  */
 final class Ship {
 
-    private int id;
+    private final int id;
     /**
      * ShipType Enumerator.
      */
-    private ShipType shipType;
-    private Placement placement;
+    private final ShipType shipType;
+    private final Placement placement;
     /**
      * Number of hidden tiles of this ship.
      */

@@ -14,7 +14,6 @@ import implementation.ShipType;
 /**
  * Class holding necessary variables to initialize an instance of Board.
  * 
- * 
  * @author Pavel Mačák
  *
  */

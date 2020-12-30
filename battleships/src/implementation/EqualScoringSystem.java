@@ -9,7 +9,7 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public final class EqualScoringSystem implements ScoringSystem {
+public final class EqualScoringSystem implements IScoringSystem {
 
     @Override
     public double pointsOnHit(double points, Player scoringPlayer) {

@@ -14,10 +14,10 @@ import application.BoardSetup;
  *
  */
 public class Game {
-    private Board board;
-    private ScoringSystem scoringSystem;
-    private Player playerOne;
-    private Player playerTwo;
+    private final Board board;
+    private final IScoringSystem iScoringSystem;
+    private final Player playerOne;
+    private final Player playerTwo;
     private Player playerOnTurn;
     private String lastPlayComment;
     private boolean gameEnded;
@@ -39,10 +39,10 @@ public class Game {
      * default names.
      * 
      * @param board         that the game will be played on.
-     * @param scoringSystem used for counting points.
+     * @param iScoringSystem used for counting points.
      */
-    Game(Board board, ScoringSystem scoringSystem) {
-	this(board, scoringSystem, new Player("Player One"),
+    Game(Board board, IScoringSystem iScoringSystem) {
+	this(board, iScoringSystem, new Player("Player One"),
 		new Player("Player Two"));
     }
 
@@ -50,26 +50,26 @@ public class Game {
      * Basic initialization of Game instance.
      * 
      * @param boardSetup    setup for creating a board.
-     * @param scoringSystem used for counting points.
+     * @param iScoringSystem used for counting points.
      * @param one           first player.
      * @param two           second player.
      */
-    public Game(BoardSetup boardSetup, ScoringSystem scoringSystem, Player one,
+    public Game(BoardSetup boardSetup, IScoringSystem iScoringSystem, Player one,
 	    Player two) {
-	this(new Board(boardSetup), scoringSystem, one, two);
+	this(new Board(boardSetup), iScoringSystem, one, two);
     }
 
     /**
      * Basic initialization of Game instance.
      * 
      * @param board         that the game will be played on.
-     * @param scoringSystem used for counting points.
+     * @param iScoringSystem used for counting points.
      * @param one           first player.
      * @param two           second player.
      */
-    Game(Board board, ScoringSystem scoringSystem, Player one, Player two) {
+    Game(Board board, IScoringSystem iScoringSystem, Player one, Player two) {
 	this.board = board;
-	this.scoringSystem = scoringSystem;
+	this.iScoringSystem = iScoringSystem;
 	this.playerOne = one;
 	this.playerTwo = two;
 	this.playerOnTurn = this.playerOne;
@@ -153,7 +153,7 @@ public class Game {
 	HitType hit = null;
 	try {
 	    hit = tile.hit();
-	    player.addPoints(tile.pointsForReveleaning(), this.scoringSystem);
+	    player.addPoints(tile.pointsForReveleaning(), this.iScoringSystem);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    System.out.println(e);
@@ -215,7 +215,7 @@ public class Game {
      */
     @Override
     public String toString() {
-	return "Game [" + this.scoringSystem + ", turn number " + this.turnNumber
+	return "Game [" + this.iScoringSystem + ", turn number " + this.turnNumber
 		+ ",\nplayerOne: " + this.playerOne + ",\nplayerTwo: "
 		+ this.playerTwo + ",\nplayerOnTurn: " + this.playerOnTurn.getName()
 		+ "]\n\n" + this.board;
