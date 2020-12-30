@@ -4,6 +4,8 @@
 package implementation;
 
 /**
+ * Players get different amount of points.
+ * 
  * @author Pavel Mačák
  *
  */

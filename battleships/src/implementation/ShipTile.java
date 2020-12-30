@@ -4,6 +4,8 @@
 package implementation;
 
 /**
+ * Class representing a tile with a ship on it.
+ * 
  * @author Pavel Mačák
  *
  */

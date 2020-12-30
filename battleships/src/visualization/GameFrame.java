@@ -27,6 +27,8 @@ import implementation.Game;
 import implementation.ShipType;
 
 /**
+ * JFrame extension a window for actually playing the game.
+ * 
  * @author Pavel Mačák
  *
  */

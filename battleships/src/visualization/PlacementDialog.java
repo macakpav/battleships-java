@@ -37,6 +37,8 @@ import application.ShipCounter;
 import implementation.ShipType;
 
 /**
+ * Dialog window for setting ship placement and ship numbers.
+ * 
  * @author Pavel Mačák
  * 
  *

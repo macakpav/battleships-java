@@ -4,7 +4,7 @@
 package implementation;
 
 /**
- * Extends Tile abstract class. Represents an empty tile on the board.
+ * Class representing an empty tile on the board.
  * 
  * @author Pavel Mačák
  *

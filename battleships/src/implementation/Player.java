@@ -4,6 +4,8 @@
 package implementation;
 
 /**
+ * Class representing a player playing the game.
+ * 
  * @author Pavel Mačák
  *
  */

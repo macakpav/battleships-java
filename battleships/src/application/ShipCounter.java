@@ -8,6 +8,9 @@ import java.util.HashMap;
 import implementation.ShipType;
 
 /**
+ * Class keeping track of how many ships should be put on board when generating
+ * random placements.
+ * 
  * @author Pavel Mačák
  *
  */

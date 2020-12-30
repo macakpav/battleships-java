@@ -4,6 +4,8 @@
 package implementation;
 
 /**
+ * Abstract interface for different scoring systems.
+ * 
  * @author Pavel Mačák
  *
  */

@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 /**
+ * Class managing high scores, loading and saving them to a file.
+ * 
  * @author Pavel Mačák
  *
  */

@@ -8,6 +8,8 @@ import java.awt.Color;
 import application.BoardSetup;
 
 /**
+ * Instance of this class represents a game that is played.
+ * 
  * @author Pavel Mačák
  *
  */

@@ -6,6 +6,8 @@ package application;
 import java.util.InputMismatchException;
 
 /**
+ * Helper class for reading ship placements from file.
+ * 
  * @author Pavel Mačák
  *
  */

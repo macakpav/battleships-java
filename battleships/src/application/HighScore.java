@@ -4,6 +4,8 @@
 package application;
 
 /**
+ * Class holding a single high score and name of the player who scored it.
+ * 
  * @author Pavel Mačák
  *
  */

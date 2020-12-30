@@ -1,5 +1,9 @@
-\documentclass[]{report}
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+%\usepackage{showframe} %This line can be used to clearly show the new margins
 
+\newgeometry{vmargin={15mm}, hmargin={12mm,17mm}}   % set the margins
 
 % Title Page
 \title{The Battleship Game}
@@ -8,13 +12,97 @@
 
 \begin{document}
 \maketitle
-\newpage
 
 \section{Intoduciton}
+
+Welcome to The Battleship Game. It is World War Two and you are a fresh gunner recruit in the Royal Navy. Together with yout friend you still haven't experienced the true horrors of war. Even better, the spotter on your deck is too unskilled (and mostly drunk) to report position of enemy ships properly, so he only reports when you hit something, but for the rest you are practically shooting blind. That is why you make the battle a bit more fun for yourself.
+
+You take turns shooting the big 120mm gun, keeping track of the hits you make. The enemy armada has different ships at their disposal. Damaging or even sinking the enemy capital ships is of course a much bigger success than just putting some screens (such as destroyers) out of business. So you made up a scoring system. For each type of ship, there different points are awarded. You get double of it for sinking a ship completely. Sometimes your friend (the second player) can be a crybaby, so if you feel like it, you can give him a tiny advantage, by counting your hits for less points.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/boardScreen}
+	\caption{This is how the board can look like before the game ends.}
+	\label{fig:boardscreen}
+\end{figure}
+
+\section{Rules and how-to}
+The two players take turns in shooting at enemy ships. You do this by clicking on any of the gray tiles, which represent places that have not been hit yet. When a player hits a ship, he may fire again, but if that hit results in the ship sinking, the turn goes to the other player. The game will end once the enemy fleet is completely destroyed.
+\begin{itemize}
+	\item When a player hits a ship he is awarded points acording to the type of ship he/she hit.
+	\item Sinking a ship (hitting its last tile) awards double the points for only hitting the ship.
+\end{itemize}
+
+When the application starts, you will see the main menu screen (Figure \ref{fig:menuscreenshot}). Here you can set the names of both players, look at recap of the rules, see the high scores or tweak your gaming experience. The two buttons above the players' names serve this purpose. Firstly, you can change the scoring system giving the starting player some disadvantage. Secondly, you can change the size of the board and the placement of the ships as well as their numbers (although be careful when putting too many ships). The placement can be done at random or using a file with this format:
+
+\begin{verbatim}
+	8 12
+	Carrier;3*2;3*3;3*4;3*5;3*6
+	Battleship;5*6;6*6;7*6;8*6
+	Submarine;5*2;6*2;7*2;
+	Destroyer;1*7;1*8
+\end{verbatim}
+The two numbers on first line specify the board sizes. If there is only one number, the board will be a square. The name of the ship type and coordinates are each separated from one another by a semicolon. A coordinate is specified by two numbers separated by a “*” with the first number representing the row and the second number representing the column. For example, “2*3” represents the tile at row 2 and column 3 of the board.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{figs/menuScreenshot}
+	\caption{Main menu screen.}
+	\label{fig:menuscreenshot}
+\end{figure}
+
+If you want to play more games be sure to generate/load a new board each time, otherwise it will stay the same.
+\newpage
 
 \section{Code description}
 
 \subsection{Classes}
+\subsubsection{Application package}
+\begin{itemize}
+	\item \texttt{BoardSetup} Class holding necessary variables to initialize an instance of Board.
+	\item \texttt{HighScore} Class holding a single high score and name of the player who scored it.
+	\item \texttt{HighScoreManager} Class managing high scores, loading and saving them to a file.
+	\item \texttt{InputFileLine} Helper class for reading ship placements from file.
+	\item \texttt{ShipCounter} Class keeping track of how many ships should be put on board when generating random placements.
+\end{itemize}
+
+\subsubsection{Implementation package}
+\begin{itemize}
+	\item \texttt{Board} Class representing board that the game is played on.
+	\item \texttt{Coords} Simple class holding two integer coordinates. Class name is abbreviation for Coordinates.
+	\item \texttt{Game} Instance of this class represents a game that is played.
+	\item \texttt{HitType} Enum of type of hits a player can make - miss, hit and sink.
+	\item \texttt{Placement}Abstract class. Represents placement on tile grid. Concrete examples could be Linear, Square, Cross placements.
+	\subitem \texttt{LinearPlacement} Class holding placement of objects on the Board. Allow only for linear placement, meaning it will throw exceptions if constructed to be anything else apart from one cell or a column or row of cells. Implements the Iterable interface to iterate through list of coordinates.
+	\item \texttt{Player} Class representing a player playing the game.
+	\item \texttt{ScoringSystem} Abstract interface for different scoring systems.
+	\subitem \texttt{EqualScoringSystem} Both Players get the same amount of points.
+	\subitem \texttt{UnequalScoringSystem} Players get different amount of points.
+	\subsubitem \texttt{HandicapScoringSystem} Player gets a multiplier on his scores.
+	\subsubitem \texttt{SubstractScoringSystem} Player gets a value substracted from his scores.
+	\item \texttt{Ship} A class representing a ship.
+	\item \texttt{ShipList} Class holding a list of ships.
+	\item \texttt{ShipType} Enum holding types of ships. New types of ships can be added here.
+	\item \texttt{Tile} Abstract class. Represents a tile on the Board.
+	\subitem \texttt{ShipTile} Class representing a tile with a ship on it.
+	\subitem \texttt{WaterTile} Class representing an empty tile on the board.
+	\item \texttt{TileColor} Enum of colors that a tile can have. This was created before starting with the GUI to make it easier later.
+\end{itemize}
+
+\subsection{GUI package}
+
+\begin{itemize}
+	\item \texttt{Control} Main class controlling the flow of the program.
+	\item \texttt{GameFrame} JFrame extension - a window for actually playing the game.
+	\item \texttt{HighScoreDialog} \texttt{showDialog} method that displays the high scores.
+	\item \texttt{MainFrame} The main menu window.
+	\item \texttt{MyUtils} Some funtions to save time writing the same code.
+	\item \texttt{PlacementDialog} Dialog window for setting ship placement and ship numbers.
+	\item \texttt{ScoringSystemDialog} Dialog for choosing the scoring system.
+	\item \texttt{Texts} Enum with some texts. There is probably a smarter way to save long foramted texts in Java, but I haven't looked for it at the moment.
+\end{itemize}
+
 \subsection{Relationship}
 
 \section{Strength, weaknesses and difficulties}
@@ -22,5 +110,7 @@ easily addable ship types
 interface like game object should probably allow for easy implementation of more game stuff - islands, ships/speedboats (objects of one - limited due to only using LinearPlacement right now)
 
 The GUI code is pretty ugly, but I went through a lot of trouble to get it working at least like this, but with this experience i would do organize it a bit differently. On the other hand i think I did a pretty good job in keeping game logic and the GUI separated. 
+
+maybe some more interesting handicap
 
 \end{document}          

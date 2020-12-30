@@ -4,6 +4,8 @@
 package implementation;
 
 /**
+ * Enum of type of hits a player can make - miss, hit and sink.
+ * 
  * @author Pavel Mačák
  *
  */

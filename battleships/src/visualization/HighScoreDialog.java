@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import application.HighScoreManager;
 
 /**
+ * method that displays the high scores.
+ * 
  * @author Pavel Mačák
  *
  */

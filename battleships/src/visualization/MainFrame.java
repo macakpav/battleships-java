@@ -30,6 +30,8 @@ import implementation.Player;
 import implementation.ScoringSystem;
 
 /**
+ * The main menu window.
+ * 
  * @author Pavel Mačák
  *
  */

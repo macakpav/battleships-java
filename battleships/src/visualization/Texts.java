@@ -6,6 +6,9 @@ package visualization;
 import implementation.ShipType;
 
 /**
+ * Enum with some texts. There is probably a smarter way to save long foramted
+ * texts in Java, but I haven't looked for it at the moment.
+ * 
  * @author Pavel Mačák
  * 
  * 

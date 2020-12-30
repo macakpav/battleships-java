@@ -8,6 +8,8 @@ import java.awt.Font;
 import javax.swing.JComponent;
 
 /**
+ * Some funtions to save time writing the same code.
+ * 
  * @author Pavel Mačák
  *
  */

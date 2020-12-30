@@ -20,6 +20,8 @@ import implementation.ScoringSystem;
 import implementation.SubstractScoringSystem;
 
 /**
+ * Dialog for choosing the scoring system.
+ * 
  * @author Pavel Mačák
  *
  */
