@@ -15,7 +15,7 @@
 
 \section{Intoduciton}
 
-Welcome to The Battleship Game. It is World War Two and you are a fresh gunner recruit in the Royal Navy. Together with yout friend you still haven't experienced the true horrors of war. Even better, the spotter on your deck is too unskilled (and mostly drunk) to report position of enemy ships properly, so he only reports when you hit something, but for the rest you are practically shooting blind. That is why you make the battle a bit more fun for yourself.
+Welcome to The Battleship Game. It is World War Two and you are a fresh gunner recruit in the Royal Navy. Together with yout friend you still haven't experienced the true horrors of war. Even better, the spotter on your deck is too unskilled (and mostly drunk) to report position of enemy ships properly. He only reports when you hit something, but for the rest you are practically shooting blind. That is why you make each battle a bit more fun for yourself.
 
 You take turns shooting the big 120mm gun, keeping track of the hits you make. The enemy armada has different ships at their disposal. Damaging or even sinking the enemy capital ships is of course a much bigger success than just putting some screens (such as destroyers) out of business. So you made up a scoring system. For each type of ship, there different points are awarded. You get double of it for sinking a ship completely. Sometimes your friend (the second player) can be a crybaby, so if you feel like it, you can give him a tiny advantage, by counting your hits for less points.
 
@@ -60,6 +60,7 @@ If you want to play more games be sure to generate/load a new board each time, o
 \subsection{Classes}
 \subsubsection{Application package}
 \begin{itemize}
+	\itemsep0em 
 	\item \texttt{BoardSetup} Class holding necessary variables to initialize an instance of Board.
 	\item \texttt{HighScore} Class holding a single high score and name of the player who scored it.
 	\item \texttt{HighScoreManager} Class managing high scores, loading and saving them to a file.
@@ -69,6 +70,7 @@ If you want to play more games be sure to generate/load a new board each time, o
 
 \subsubsection{Implementation package}
 \begin{itemize}
+	\itemsep0em 
 	\item \texttt{Board} Class representing board that the game is played on.
 	\item \texttt{Coords} Simple class holding two integer coordinates. Class name is abbreviation for Coordinates.
 	\item \texttt{Game} Instance of this class represents a game that is played.
@@ -93,6 +95,7 @@ If you want to play more games be sure to generate/load a new board each time, o
 \subsection{GUI package}
 
 \begin{itemize}
+	\itemsep0em 
 	\item \texttt{Control} Main class controlling the flow of the program.
 	\item \texttt{GameFrame} JFrame extension - a window for actually playing the game.
 	\item \texttt{HighScoreDialog} \texttt{showDialog} method that displays the high scores.
@@ -103,14 +106,22 @@ If you want to play more games be sure to generate/load a new board each time, o
 	\item \texttt{Texts} Enum with some texts. There is probably a smarter way to save long foramted texts in Java, but I haven't looked for it at the moment.
 \end{itemize}
 
-\subsection{Relationship}
+\subsection{Relationships}
+To start with the main game logic, the class \texttt{Game} is of main interest. It receives inputs in terms of function \texttt{clickOnTile} which processes a mouse click (for GUI application) or a console input (for a text application). It makes use of the class \texttt{Player} to represent the two players, the general \texttt{ScoringSystem} interface to distinguish between different scoring systems and the \texttt{Board} class which basically holds the information on the tiles as well as exposing some methods to manipulate them. The \texttt{Tile} class itself is abstract base class for the implementations \texttt{ShipTile} and \texttt{WaterTile}. Coming back a bit, the \texttt{Board} class also holds the list of ships (the custom \texttt{ShipList} class) that are placed on the board. The \texttt{Ship} objects in this list are also assigned to corresponding tiles and keep track of the Ship status. Each ship is of one type which are defined in \texttt{ShipType} enumerator. The \texttt{ScoringSystem} interface has one method which takes the normal points that should be scored and a player that should score and recalculates the points if necessary.
 
-\section{Strength, weaknesses and difficulties}
-easily addable ship types
-interface like game object should probably allow for easy implementation of more game stuff - islands, ships/speedboats (objects of one - limited due to only using LinearPlacement right now)
+The application package has classes which deal with file I/O - mainly the \texttt{BoardSetup} which exposes methods of initializing \texttt{ShipList} from file or randomly. It is then used in the constructor of \texttt{Board} when a new game is started. High scores saving and loading is handled by \texttt{HighScoreManager} which makes use of \texttt{HighScore} class to hold information about a high score entry. An instance of \texttt{ShipCounter} is passed to \texttt{BoardSetup} when initializing the ship list at random and is also used by the GUI so that the user may chose the ship numbers.
 
-The GUI code is pretty ugly, but I went through a lot of trouble to get it working at least like this, but with this experience i would do organize it a bit differently. On the other hand i think I did a pretty good job in keeping game logic and the GUI separated. 
+The visualization package implements GUI elements. The \texttt{MainFrame} is the main menu window which subsequently calls settings dialogs -\texttt{Placement} and \texttt{ScoringSystem} as well as information dialogs with rules and high scores (\texttt{HighScoresDialog}, also used by \texttt{GameFrame}). It extends the \texttt{JFrame} class because it overrires the \texttt{dispose()} method to always ask user for confirmation before exiting the program. It also hold game logic elements for scoring systems, board setup and high score manager. The game window is implemented in \texttt{GameFrame} class and basically takes an instance of \texttt{Game} that the user wants to play and gets all the necessary information out of that object.
 
-maybe some more interesting handicap
 
+\section{Strengths, weaknesses and difficulties}
+
+The main game logic is designed to be general. Some more ship types can be easily added in the \texttt{ShipType} enum and the game will work with them. It should also be quite easy to implement new game objects such as islands or naval bases of different shapes (now it is only line or a single tile). Only the implementation of scoring systems is a bit less general - the double for sinking rule is actually hard coded. Possible solution could be passing the \texttt{HitType} (and maybe even \texttt{ShipType}) to scoring systems as well so the decision can be made there.
+
+The GUI code is pretty ugly, but it took me much more time than I expected to get it working at least like this, but with this experience i would do organize it a bit differently. On the other hand i think I did a pretty good job in keeping game logic and the GUI separated. 
+
+difficulties when running multiple games in one program instance (i.e. without restarting the program) because I actually didn't have that in mind when designing the application (which was a mistake). To make this work I had to use some hard copying (of \texttt{ShipList} when creating an instance of \texttt{Board}) which is not the cleanest way to do it I suppose.
+
+As was suggested by someone on the Discussion board, the player keeps their turn if they hit a ship. This made more sense to me in terms of gameplay, while not needing extra time to make it work.
+Also customizing ship numbers is a quite good feature in mine opinion because than it makes sense to increase the board size as well. For me it was also a bit more natural to allow any number of ships than hard coding that each ship is may be placed only once.
 \end{document}          
