@@ -20,9 +20,9 @@ public class Board {
     /**
      * number of tiles (sizeX*sizeY)
      */
-    private final int noTiles;
+    private final int noTiles, noRows, noCols;
 
-    private final BoardSetup setup;
+    private final ShipList ships;
 
     /**
      * Constructor using the BoardSetup class from application module.
@@ -31,12 +31,14 @@ public class Board {
      */
     public Board(BoardSetup setup) {
 	super();
-	this.setup = setup;
-	this.noTiles = this.setup.getCols() * this.setup.getRows();
+	this.noCols = setup.getCols();
+	this.noRows = setup.getRows();
+	this.noTiles = this.noCols * this.noRows;
+	this.ships = new ShipList(setup.getShipList());
 
 	this.tiles = new ArrayList<Tile>(this.noTiles);// initialize with capacity
 						       // noTiles
-	this.initTiles(this.setup.getShipList());
+	this.initTiles(this.ships);
     }
 
     /**
@@ -126,14 +128,14 @@ public class Board {
      * @return the sizeX
      */
     public int getRows() {
-	return this.setup.getRows();
+	return this.noRows;
     }
 
     /**
      * @return the sizeY
      */
     public int getCols() {
-	return this.setup.getCols();
+	return this.noCols;
     }
 
     /**
@@ -147,7 +149,7 @@ public class Board {
      * @return True if all ships are destroyed.
      */
     public boolean areAllSunk() {
-	return this.setup.getShipList().areAllSunk();
+	return this.ships.areAllSunk();
     }
 
 }

@@ -27,6 +27,17 @@ public class ShipList implements Iterable<Ship> {
     }
 
     /**
+     * Deep copy constructor.
+     * 
+     * @param shipList
+     */
+    public ShipList(ShipList that) {
+	this();
+	for (Ship ship : that)
+	    this.add(new Ship(ship));
+    }
+
+    /**
      * Adds a ship to the array of ships.
      * 
      * @param shipType Type of ship to add.

@@ -31,6 +31,15 @@ final class Ship {
     }
 
     /**
+     * Deep copy constructor
+     * 
+     * @param that
+     */
+    public Ship(Ship that) {
+	this(that.id, that.shipType, that.placement);
+    }
+
+    /**
      * @return ID of this ship.
      */
     protected int id() {

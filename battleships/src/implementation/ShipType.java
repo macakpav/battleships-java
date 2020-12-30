@@ -12,13 +12,13 @@ package implementation;
  *
  */
 public enum ShipType {
-    CARRIER('A', "Airplane Carrier", 5, 6, TileColor.ORANGE),
-    BATTLESHIP('B', "Battleship", 4, 5, TileColor.GREEN),
-    SUBMARINE('S', "Submarine", 3, 3, TileColor.RED),
+    CARRIER('A', "Carrier", 5, 600, TileColor.ORANGE),
+    BATTLESHIP('B', "Battleship", 4, 500, TileColor.GREEN),
+    SUBMARINE('S', "Submarine", 3, 300, TileColor.RED),
 //    BATTLECRUISER('C', "Battlecruiser", 6, 6, TileColor.WHITE),
 //    SPEEDBOAT('S', "Speedboat", 1, 1, TileColor.YELLOW),
-//  AIRPLANE('A', "Airplane", 1, 1, TileColor.YELLOW),
-    DESTROYER('D', "Destroyer", 2, 1, TileColor.PINK);
+//    AIRPLANE('A', "Airplane", 1, 1, TileColor.YELLOW),
+    DESTROYER('D', "Destroyer", 2, 100, TileColor.PINK);
 
     /**
      * One character abbreviation of ships name.
@@ -52,6 +52,7 @@ public enum ShipType {
      */
     private ShipType(char abbreviation, String name, int length, int pointsPerHit,
 	    TileColor color) {
+	assert (length > 0);
 	this.abbreviation = abbreviation;
 	this.name = name;
 	this.length = length;
@@ -126,8 +127,10 @@ public enum ShipType {
     public static String shipTypeSummary() {
 	String str = "";
 	for (ShipType type : ShipType.values()) {
-	    str += type.NAME() + "(" + type.COLOR().toString() + ") - length: "
-		    + type.LEN() + System.lineSeparator();
+	    str += type.NAME() + "(" + type.COLOR().toString() + ") " + type.LEN()
+		    + (type.LEN() == 1 ? " tile " : " tiles ") + "long"
+		    + ", hit scores " + type.POINTS() + " points"
+		    + System.lineSeparator();
 	}
 	return str;
     }
