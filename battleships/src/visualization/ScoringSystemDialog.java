@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import implementation.EqualScoringSystem;
-import implementation.HandicapScoringSystem;
+import implementation.MultiplierScoringSystem;
 import implementation.Player;
 import implementation.ScoringSystem;
 import implementation.SubstractScoringSystem;
@@ -32,27 +32,25 @@ class ScoringSystemDialog {
     private static String[] tooltips = new String[] {
 	    "Both players receive equal ammount of points.",
 	    "Starting player receives 90% of the normal points.",
-	    "Starting player receives 1 pont less for each hit." };
+	    "Starting player receives 50 points less for each hit." };
 
-    JFrame parent;
-    ScoringSystem scoringSystem;
-    Player pOne;
-    Player pTwo;
-    JPanel dialogPanel;
-    ScoringSystem[] ssOptions;
+    private JFrame parent;
+    private final Player pOne;
+    private final Player pTwo;
+    private JPanel dialogPanel;
+    private ScoringSystem[] ssOptions;
+    private ScoringSystem selectedSystem;
 
-    ScoringSystemDialog(JFrame parent_, ScoringSystem scoringSystem_, Player pOne_,
-	    Player pTwo_) {
+    ScoringSystemDialog(JFrame parent_, Player pOne_, Player pTwo_) {
 	super();
 	this.parent = parent_;
-	this.scoringSystem = scoringSystem_;
 	this.pOne = pOne_;
 	this.pTwo = pTwo_;
 	dialogPanel = new JPanel();
 	dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.PAGE_AXIS));
 	ssOptions = new ScoringSystem[] { new EqualScoringSystem(),
-		new HandicapScoringSystem(0.9, pOne),
-		new SubstractScoringSystem(1, pOne) };
+		new MultiplierScoringSystem(0.9, pOne),
+		new SubstractScoringSystem(50, pOne) };
 	ButtonGroup group = new ButtonGroup();
 	JRadioButton[] radioButtons = new JRadioButton[names.length];
 	for (int i = 0; i < radioButtons.length; i++) {
@@ -69,23 +67,24 @@ class ScoringSystemDialog {
 
     }
 
-    void showDialog() {
+    ScoringSystem showDialog() {
 	JOptionPane.showMessageDialog(this.parent, this.dialogPanel, "Scoring system",
 		JOptionPane.PLAIN_MESSAGE);
+	return selectedSystem;
     }
 
     private class ChangeSystemActionListener implements ActionListener {
 
-	ScoringSystem selectedSystem;
+	private ScoringSystem btnSystem;
 
 	private ChangeSystemActionListener(ScoringSystem selectedSystem) {
 	    super();
-	    this.selectedSystem = selectedSystem;
+	    this.btnSystem = selectedSystem;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	    ScoringSystemDialog.this.scoringSystem = this.selectedSystem;
+	    ScoringSystemDialog.this.selectedSystem = this.btnSystem;
 	}
 
     }

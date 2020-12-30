@@ -209,6 +209,7 @@ class GameFrame extends JFrame {
 	else
 	    decision = JOptionPane.YES_OPTION;
 	if (decision == JOptionPane.YES_OPTION) {
+	    game.resetPlayers();
 	    super.dispose();
 	    parentFrame.setVisible(true);
 	}

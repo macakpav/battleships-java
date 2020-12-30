@@ -9,7 +9,7 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public abstract class Tile {
+abstract class Tile {
     /**
      * ID of tile, also index of this tile in tiles array of Board class.
      */

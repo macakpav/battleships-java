@@ -41,7 +41,7 @@ public class Game {
      * @param board         that the game will be played on.
      * @param scoringSystem used for counting points.
      */
-    public Game(Board board, ScoringSystem scoringSystem) {
+    Game(Board board, ScoringSystem scoringSystem) {
 	this(board, scoringSystem, new Player("Player One"),
 		new Player("Player Two"));
     }
@@ -51,6 +51,8 @@ public class Game {
      * 
      * @param boardSetup    setup for creating a board.
      * @param scoringSystem used for counting points.
+     * @param one           first player.
+     * @param two           second player.
      */
     public Game(BoardSetup boardSetup, ScoringSystem scoringSystem, Player one,
 	    Player two) {
@@ -65,7 +67,7 @@ public class Game {
      * @param one           first player.
      * @param two           second player.
      */
-    public Game(Board board, ScoringSystem scoringSystem, Player one, Player two) {
+    Game(Board board, ScoringSystem scoringSystem, Player one, Player two) {
 	this.board = board;
 	this.scoringSystem = scoringSystem;
 	this.playerOne = one;
@@ -99,9 +101,7 @@ public class Game {
 	    if (!(hit == HitType.HIT)) {
 		nextPlayer();
 	    }
-	    if (hit == HitType.SINK) {
-		this.gameEnded = this.board.areAllSunk();
-	    }
+	    this.gameEnded = this.board.areAllSunk();
 	    changeComment(hit);
 	    return true;
 	}
@@ -262,7 +262,7 @@ public class Game {
     public String getWinnerName() {
 	switch (getWinner()) {
 	case 0:
-	    return playerOneName() + "and" + playerTwoName();
+	    return playerOneName() + " and " + playerTwoName();
 	case 1:
 	    return playerOneName();
 	case 2:
@@ -289,6 +289,14 @@ public class Game {
      */
     public boolean isTie() {
 	return getWinner() == 0;
+    }
+
+    /**
+     * 
+     */
+    public void resetPlayers() {
+	playerOne.reset();
+	playerTwo.reset();
     }
 
 }

@@ -73,8 +73,8 @@ public class MainFrame extends JFrame {
 	highScoreManager = new HighScoreManager();
 	playerOne = new Player("Frodo");
 	playerTwo = new Player("Gandalf");
-	scoringSystemDialog = new ScoringSystemDialog(this, this.scoringSystem,
-		this.playerOne, this.playerTwo);
+	scoringSystemDialog = new ScoringSystemDialog(this, this.playerOne,
+		this.playerTwo);
 	placementDialog = new PlacementDialog(this, this.boardSetup);
 
 	this.setPreferredSize(new Dimension(900, 300));
@@ -103,7 +103,7 @@ public class MainFrame extends JFrame {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		MainFrame.this.scoringSystemDialog.showDialog();
+		scoringSystem = MainFrame.this.scoringSystemDialog.showDialog();
 	    }
 	});
 
@@ -223,9 +223,8 @@ public class MainFrame extends JFrame {
 			playerOne.setName(txtP1.getText().trim());
 			playerTwo.setName(txtP2.getText().trim());
 
-			new GameFrame(MainFrame.this, highScoreManager,
-				new Game(boardSetup, new EqualScoringSystem(),
-					playerOne, playerTwo));
+			new GameFrame(MainFrame.this, highScoreManager, new Game(
+				boardSetup, scoringSystem, playerOne, playerTwo));
 			return true;
 		    }
 

@@ -33,6 +33,17 @@ public class BoardSetup {
 	randomInit(this.noRows, this.noCols);
     }
 
+    /**
+     * Deep copy constructor.
+     * 
+     * @param setup
+     */
+    public BoardSetup(BoardSetup that) {
+	this.noCols = that.noCols;
+	this.noRows = that.noRows;
+	this.shipList = new ShipList(that.shipList);
+    }
+
     public boolean initilazeFromFile() {
 	return this.initilazeFromFile("src/application/input.txt");
     }
@@ -155,7 +166,7 @@ public class BoardSetup {
 		    if (!success) {
 			System.out.println(
 				"Failed to randomly fit ship " + shipType.NAME());
-			break;
+			return false;
 		    }
 		}
 	    }
@@ -194,6 +205,17 @@ public class BoardSetup {
      */
     public int getSize() {
 	return this.noCols * this.noRows;
+    }
+
+    /**
+     * Copy contents without changing address.
+     * 
+     * @param temp
+     */
+    public void copy(BoardSetup that) {
+	this.noCols = that.noCols;
+	this.noRows = that.noRows;
+	this.shipList = new ShipList(that.shipList);
     }
 
 }

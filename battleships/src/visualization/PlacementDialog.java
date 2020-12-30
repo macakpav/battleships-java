@@ -45,7 +45,7 @@ import implementation.ShipType;
  */
 class PlacementDialog {
 
-    boolean changed, warned;
+    boolean changed, warned, applyFailed;
 
     private static final String title = "The Battleship Game - Ship Placement Settings";
 
@@ -297,6 +297,8 @@ class PlacementDialog {
     private void updateSetup() {
 	if (!changed)
 	    return;
+	applyFailed = true;
+	BoardSetup temp = new BoardSetup(setup);
 	if (rbRandomInit.isSelected()) {
 	    try {
 		spinRows.commitEdit();
@@ -323,10 +325,15 @@ class PlacementDialog {
 			"Ship placement loaded successfully.",
 			"Loaded ship placement", JOptionPane.INFORMATION_MESSAGE);
 		changed = false;
+		applyFailed = false;
 	    }
 
 	} else {
 	    throw new Error("No radio button selected!");
+	}
+
+	if (applyFailed) {
+	    setup.copy(temp);
 	}
     }
 
@@ -358,6 +365,7 @@ class PlacementDialog {
 				"Random ship placement",
 				JOptionPane.INFORMATION_MESSAGE);
 			changed = false;
+			applyFailed = false;
 		    }
 		    return true;
 		}

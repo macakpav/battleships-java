@@ -68,4 +68,11 @@ public class Player {
 	return "Player [name=" + this.name + ", score=" + this.score + "]";
     }
 
+    /**
+     * 
+     */
+    public void reset() {
+	score = 0.0;
+    }
+
 }

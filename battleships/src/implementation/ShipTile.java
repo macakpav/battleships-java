@@ -9,7 +9,7 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public class ShipTile extends Tile {
+class ShipTile extends Tile {
 
     /**
      * Ship object residing on this tile.

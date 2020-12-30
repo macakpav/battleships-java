@@ -12,7 +12,7 @@ import application.BoardSetup;
  * @author Pavel Mačák
  *
  */
-public class Board {
+class Board {
     /**
      * array holding different Tiles
      */

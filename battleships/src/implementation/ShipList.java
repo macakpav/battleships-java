@@ -163,6 +163,8 @@ public class ShipList implements Iterable<Ship> {
      * @return True if all ships are destroyed.
      */
     public boolean areAllSunk() {
+	if (this.ships.isEmpty())
+	    return true;
 	for (Ship ship : this.ships) {
 	    if (!ship.isDestroyed())
 		return false;

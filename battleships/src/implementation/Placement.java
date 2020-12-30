@@ -13,7 +13,7 @@ import java.util.Iterator;
  * @author Pavel Mačák
  *
  */
-public abstract class Placement implements Iterable<Coords> {
+abstract class Placement implements Iterable<Coords> {
     /**
      * Array list containing placement coordinates.
      */

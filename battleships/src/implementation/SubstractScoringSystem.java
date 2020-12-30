@@ -7,50 +7,47 @@ package implementation;
  * @author Pavel Mačák
  *
  */
-public class SubstractScoringSystem extends UnequalScoringSystem {
-
-    private double substractValue;
+public class SubstractScoringSystem extends HandicapScoringSystem {
 
     /**
      * @param handicapedPlayer
      */
     public SubstractScoringSystem(double substractValue, Player handicapedPlayer) {
-	super(handicapedPlayer);
-	this.substractValue = substractValue;
+	super(handicapedPlayer, substractValue);
     }
 
     /**
      * @return the substractValue
      */
     public double getSubstractValue() {
-	return this.substractValue;
+	return super.handicapCoeficient;
     }
 
     /**
      * @param substractValue the substractValue to set
      */
     public void setSubstractValue(double substractValue) {
-	this.substractValue = substractValue;
+	super.handicapCoeficient = substractValue;
     }
 
     @Override
     public double pointsOnHit(double points, Player scoringPlayer) {
 	double coef = 0.0;
 	if (super.handicapedPlayer.equals(scoringPlayer))
-	    coef = this.substractValue;
+	    coef = super.handicapCoeficient;
 	return points - coef;
     }
 
     @Override
     public String toString() {
-	return "Substract scoring system[" + this.substractValue + "]";
+	return "Substract scoring system[" + super.handicapCoeficient + "]";
     }
 
     @Override
     public boolean equals(Object obj) {
 	return (obj instanceof SubstractScoringSystem)
 		&& ((SubstractScoringSystem) obj)
-			.getSubstractValue() == this.substractValue;
+			.getSubstractValue() == super.handicapCoeficient;
     }
 
 }
