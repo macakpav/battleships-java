@@ -6,9 +6,9 @@ package implementation;
 /**
  * Abstract interface for different scoring systems.
  * 
- * @author Pavel Mačák
+ * @author Pavel Macak
  *
  */
-public abstract interface IScoringSystem {
-    public abstract double pointsOnHit(double points, Player scoringPlayer);
+public interface IScoringSystem {
+	double pointsOnHit(double points, Player scoringPlayer);
 }

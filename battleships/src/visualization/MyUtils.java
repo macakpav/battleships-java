@@ -10,12 +10,12 @@ import javax.swing.JComponent;
 /**
  * Some funtions to save time writing the same code.
  * 
- * @author Pavel Mačák
+ * @author Pavel Macak
  *
  */
 public class MyUtils {
 
-    static void setFontSize(JComponent label, int size) {
-	label.setFont(new Font(label.getFont().getName(), Font.PLAIN, size));
-    }
+	static void setFontSize(JComponent label, int size) {
+		label.setFont(new Font(label.getFont().getName(), Font.PLAIN, size));
+	}
 }

@@ -8,18 +8,18 @@ import javax.swing.SwingUtilities;
 /**
  * Main class controlling the flow of the program.
  * 
- * @author Pavel Mačák
+ * @author Pavel Macak
  *
  */
 public class Control {
 
-    public static void main(String[] args) {
-	SwingUtilities.invokeLater(new Runnable() {
-	    @Override
-	    public void run() {
-		new MainFrame();
-	    }
-	});
-    }
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MainFrame();
+			}
+		});
+	}
 
 }
