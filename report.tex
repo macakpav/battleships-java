@@ -3,7 +3,7 @@
 \usepackage{geometry}
 %\usepackage{showframe} %This line can be used to clearly show the new margins
 
-\newgeometry{vmargin={15mm}, hmargin={12mm,17mm}}   % set the margins
+\newgeometry{vmargin={15mm}, hmargin={15mm,20mm}}   % set the margins
 
 % Title Page
 \title{The Battleship Game}
@@ -22,7 +22,7 @@ You take turns shooting the big 120mm gun, keeping track of the hits you make. T
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\linewidth]{figs/boardScreen}
+	\includegraphics[width=0.7\linewidth]{figs/boardScreen}
 	\caption{This is how the board can look like before the game ends.}
 	\label{fig:boardscreen}
 \end{figure}
@@ -47,7 +47,7 @@ The two numbers on first line specify the board sizes. If there is only one numb
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\linewidth]{figs/menuScreenshot}
+	\includegraphics[width=0.7\linewidth]{figs/menuScreenshot}
 	\caption{Main menu screen.}
 	\label{fig:menuscreenshot}
 \end{figure}
@@ -123,5 +123,9 @@ The GUI code is pretty ugly, but it took me much more time than I expected to ge
 difficulties when running multiple games in one program instance (i.e. without restarting the program) because I actually didn't have that in mind when designing the application (which was a mistake). To make this work I had to use some hard copying (of \texttt{ShipList} when creating an instance of \texttt{Board}) which is not the cleanest way to do it I suppose.
 
 As was suggested by someone on the Discussion board, the player keeps their turn if they hit a ship. This made more sense to me in terms of gameplay, while not needing extra time to make it work.
+
 Also customizing ship numbers is a quite good feature in mine opinion because than it makes sense to increase the board size as well. For me it was also a bit more natural to allow any number of ships than hard coding that each ship is may be placed only once.
+
+Further optimizations regarding code readability could still be done by avoiding boilerplate code using lombok annotation for data classes, assignment constructors etc.
+
 \end{document}          
